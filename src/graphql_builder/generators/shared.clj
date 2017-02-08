@@ -1,5 +1,6 @@
 (ns graphql-builder.generators.shared
-  (:require [clojure.string :as str]))
+  (:require [clojure.string :as str]
+            [graphql-builder.util :as util]))
 
 (defn quote-arg [v]
   (if (string? v)
@@ -34,3 +35,12 @@
 (defn fragment-type-name [node]
   (when-let [name (get-in node [:type-condition :type-name])]
     (str " on " @name)))
+
+(defn has-children? [node]
+  (boolean (seq (:selection-set node))))
+
+(defn open-block [node]
+  (when (has-children? node) " {"))
+
+(defn close-block [node indent-level]
+  (when (has-children? node) (util/indent indent-level "}")))

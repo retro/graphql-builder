@@ -1,10 +1,7 @@
 (ns graphql-builder.generators.field
   (:require [graphql-builder.util :as util]
             [clojure.string :as str]
-            [graphql-builder.generators.shared :refer [node-arguments directives]]))
-
-(defn has-children? [node]
-  (boolean (seq (:selection-set node))))
+            [graphql-builder.generators.shared :refer [node-arguments directives open-block close-block]]))
 
 (defn field-name [node]
   (let [name (:name node)
@@ -12,12 +9,6 @@
     (if name
       (str name ": " @field-name)
       @field-name)))
-
-(defn open-block [node]
-  (when (has-children? node) " {"))
-
-(defn close-block [node indent-level]
-  (when (has-children? node) (util/indent indent-level "}")))
 
 (defn generator [visitor config indent-level node]
   [(str (util/indent indent-level (field-name node))

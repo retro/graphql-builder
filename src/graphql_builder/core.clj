@@ -18,8 +18,7 @@
     :field field/generator
     :fragment-spread fragment-spread/generator
     :fragment-definition fragment/generator
-    :inline-fragment inline-fragment/generator
-    (fn [_ _ _ _] [])))
+    :inline-fragment inline-fragment/generator))
 
 (defn visit-node [visitor config indent-level node]
   (let [generator (dispatcher node)]
@@ -34,5 +33,3 @@
   ([parsed-statement config]
    (util/nl-join (flatten (map (fn [node] (visit-node visit-nodes config 0 node))
                                (apply concat (vals parsed-statement)))))))
-
-;; :operation-definitions :fragment-definitions :type-system-definitions

@@ -1,19 +1,10 @@
 (ns graphql-builder.generators.fragment
   (:require [graphql-builder.util :as util]
             [clojure.string :as str]
-            [graphql-builder.generators.shared :refer [node-arguments directives fragment-type-name]]))
-
-(defn has-children? [node]
-  (boolean (seq (:selection-set node))))
+            [graphql-builder.generators.shared :refer [node-arguments directives fragment-type-name open-block close-block]]))
 
 (defn fragment-name [node]
   (str "fragment " (:name node) (fragment-type-name node) (directives node)))
-
-(defn open-block [node]
-  (when (has-children? node) " {"))
-
-(defn close-block [node indent-level]
-  (when (has-children? node) (util/indent indent-level "}")))
 
 (defn generator [visitor config indent-level node]
   [(str (util/indent indent-level (fragment-name node))
