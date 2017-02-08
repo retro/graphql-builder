@@ -12,6 +12,7 @@
 #_ (defn render-parsed! [to-filename parsed-data]
      (pp/pprint parsed-data
                 (clojure.java.io/writer (str "test/graphql_builder/resources/parsed/" to-filename))))
+
 ;; (render-parsed! "statements.edn" parsed-statements)
 
 (deftest generate-test

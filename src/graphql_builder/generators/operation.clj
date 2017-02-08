@@ -9,21 +9,20 @@
        " }"))
 
 (defn default-value [variable]
-  (when-let [d (:default-value variable)]
-    (let [val @d]
-      (if (and (vector? val) (= :object-value (first val)))
-        (object-default-value (last val))
-        (str " = " (quote-arg val))))))
+  (when-let [val (:default-value variable)]
+    (if (and (vector? val) (= :object-value (first val)))
+      (object-default-value (last val))
+      (str " = " (quote-arg val)))))
 
 (defn variable-value [variable]
-  (let [type-name @(:type-name variable)
+  (let [type-name (:type-name variable)
         required? (:required variable)]
     (str type-name (when required? "!") (default-value variable))))
 
 (defn node-variables [node]
   (when-let [variables (:variable-definitions node)]
     (str "("
-         (str/join ", " (map #(str "$" @(:variable-name %) ": " (variable-value %)) variables))
+         (str/join ", " (map #(str "$" (:variable-name %) ": " (variable-value %)) variables))
          ")")))
 
 (defn operation-name [operation]

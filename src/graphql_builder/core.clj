@@ -6,11 +6,13 @@
             [graphql-builder.generators.field :as field]
             [graphql-builder.generators.fragment-spread :as fragment-spread]
             [graphql-builder.generators.fragment :as fragment]
-            [graphql-builder.generators.inline-fragment :as inline-fragment]))
+            [graphql-builder.generators.inline-fragment :as inline-fragment]
+            [clojure.walk :as walk]
+            [graphql-clj.box :as box]))
 
 
 (defn parse [statement]
-  (parser/parse statement))
+  (walk/prewalk box/box->val (parser/parse statement)))
 
 (defn dispatcher [s]
   (case (:node-type s)
