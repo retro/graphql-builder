@@ -1,0 +1,730 @@
+({:operation-definitions
+  [{:section :operation-definitions,
+    :node-type :operation-definition,
+    :operation-type {:type "query"},
+    :selection-set
+    [{:node-type :field,
+      :field-name #<Box@6a9831a0: "user">,
+      :arguments
+      [{:node-type :argument,
+        :argument-name #<Box@43c98add: "id">,
+        :value #<Box@6cce2402: 4>}],
+      :selection-set
+      [{:node-type :field, :field-name #<Box@55709f53: "id">}
+       {:node-type :field, :field-name #<Box@2864ef2: "name">}
+       {:node-type :field,
+        :field-name #<Box@3be7ddeb: "profilePic">,
+        :arguments
+        [{:node-type :argument,
+          :argument-name #<Box@1052ab42: "width">,
+          :value #<Box@527a5062: 100>}
+         {:node-type :argument,
+          :argument-name #<Box@2986478e: "height">,
+          :value #<Box@2ddd204: 50.0>}]}]}]}]}
+ {:operation-definitions
+  [{:section :operation-definitions,
+    :node-type :operation-definition,
+    :operation-type {:type "query"},
+    :selection-set
+    [{:node-type :field,
+      :field-name #<Box@13bf2e3d: "user">,
+      :arguments
+      [{:node-type :argument,
+        :argument-name #<Box@44c750b7: "id">,
+        :value #<Box@6bf4f3db: 4>}],
+      :selection-set
+      [{:node-type :field, :field-name #<Box@59222907: "id">}
+       {:node-type :field, :field-name #<Box@1c0ded2a: "name">}
+       {:node-type :field,
+        :field-name #<Box@7afbfbc1: "profilePic">,
+        :arguments
+        [{:node-type :argument,
+          :argument-name #<Box@6bf5e4c1: "width">,
+          :value #<Box@20296fee: 100>}
+         {:node-type :argument,
+          :argument-name #<Box@20647387: "height">,
+          :value #<Box@254e6551: 50>}]}]}]}]}
+ {:operation-definitions
+  [{:section :operation-definitions,
+    :node-type :operation-definition,
+    :operation-type {:type "query"},
+    :selection-set
+    [{:node-type :field,
+      :field-name #<Box@966fae: "user">,
+      :arguments
+      [{:node-type :argument,
+        :argument-name #<Box@692a82e: "id">,
+        :value #<Box@1b9dad7f: 4>}],
+      :selection-set
+      [{:node-type :field, :field-name #<Box@2e2003b8: "name">}]}]}]}
+ {:operation-definitions
+  [{:section :operation-definitions,
+    :node-type :operation-definition,
+    :operation-type {:type "mutation"},
+    :selection-set
+    [{:node-type :field,
+      :field-name #<Box@7c0eb6e6: "likeStory">,
+      :arguments
+      [{:node-type :argument,
+        :argument-name #<Box@374d7853: "storyID">,
+        :value #<Box@392d797a: 12345>}],
+      :selection-set
+      [{:node-type :field,
+        :field-name #<Box@e7a85bd: "story">,
+        :selection-set
+        [{:node-type :field,
+          :field-name #<Box@6b656be5: "likeCount">}]}]}]}]}
+ {:operation-definitions
+  [{:section :operation-definitions,
+    :node-type :operation-definition,
+    :operation-type {:type "query"},
+    :selection-set
+    [{:node-type :field,
+      :field-name #<Box@7d37d61b: "me">,
+      :selection-set
+      [{:node-type :field, :field-name #<Box@1bba6ede: "id">}
+       {:node-type :field, :field-name #<Box@19ed395: "firstName">}
+       {:node-type :field, :field-name #<Box@5d19e1e6: "lastName">}
+       {:node-type :field,
+        :field-name #<Box@390ca937: "birthday">,
+        :selection-set
+        [{:node-type :field, :field-name #<Box@6aca53e0: "month">}
+         {:node-type :field, :field-name #<Box@64b7ec9e: "day">}]}
+       {:node-type :field,
+        :field-name #<Box@57935eeb: "friends">,
+        :selection-set
+        [{:node-type :field,
+          :field-name #<Box@3cab9847: "name">}]}]}]}]}
+ {:operation-definitions
+  [{:section :operation-definitions,
+    :node-type :operation-definition,
+    :operation-type {:type "query"},
+    :selection-set
+    [{:node-type :field,
+      :field-name #<Box@67b3b2ed: "me">,
+      :selection-set
+      [{:node-type :field, :field-name #<Box@5f438a4e: "name">}]}]}]}
+ {:operation-definitions
+  [{:section :operation-definitions,
+    :node-type :operation-definition,
+    :operation-type {:type "query"},
+    :selection-set
+    [{:node-type :field,
+      :field-name #<Box@4287ef5b: "me">,
+      :selection-set
+      [{:node-type :field, :field-name #<Box@1519b74e: "name">}]}]}
+   {:section :operation-definitions,
+    :node-type :operation-definition,
+    :operation-type {:type "query"},
+    :selection-set
+    [{:node-type :field,
+      :field-name #<Box@14af05b7: "user">,
+      :arguments
+      [{:node-type :argument,
+        :argument-name #<Box@33e3a918: "id">,
+        :value #<Box@1c8d3cc5: 4>}],
+      :selection-set
+      [{:node-type :field, :field-name #<Box@19ad2a40: "name">}]}]}]}
+ {:operation-definitions
+  [{:section :operation-definitions,
+    :node-type :operation-definition,
+    :operation-type {:type "query"},
+    :selection-set
+    [{:node-type :field,
+      :field-name #<Box@22858a1a: "user">,
+      :arguments
+      [{:node-type :argument,
+        :argument-name #<Box@205e28c0: "id">,
+        :value #<Box@3f9d12cf: 4>}],
+      :selection-set
+      [{:node-type :field, :field-name #<Box@683d0a79: "id">}
+       {:node-type :field, :field-name #<Box@26b9d27e: "name">}
+       {:node-type :field,
+        :field-name #<Box@675e7f4e: "profilePic">,
+        :arguments
+        [{:node-type :argument,
+          :argument-name #<Box@532dd2c5: "size">,
+          :value #<Box@5f7fce47: 100>}]}]}]}]}
+ {:operation-definitions
+  [{:section :operation-definitions,
+    :node-type :operation-definition,
+    :operation-type {:type "query"},
+    :selection-set
+    [{:node-type :field,
+      :field-name #<Box@6e05feb5: "user">,
+      :arguments
+      [{:node-type :argument,
+        :argument-name #<Box@28204f0e: "id">,
+        :value #<Box@3e275df5: 4>}],
+      :selection-set
+      [{:node-type :field, :field-name #<Box@1d37dd53: "id">}
+       {:node-type :field, :field-name #<Box@6b6c707f: "name">}
+       {:node-type :field,
+        :field-name #<Box@15f48666: "profilePic">,
+        :arguments
+        [{:node-type :argument,
+          :argument-name #<Box@7836b77f: "width">,
+          :value #<Box@15b0e4fc: 100>}
+         {:node-type :argument,
+          :argument-name #<Box@2c05d48b: "height">,
+          :value #<Box@3925dde1: 50>}]}]}]}]}
+ {:operation-definitions
+  [{:section :operation-definitions,
+    :node-type :operation-definition,
+    :operation-type {:type "query"},
+    :selection-set
+    [{:node-type :field,
+      :field-name #<Box@6bf8b12a: "user">,
+      :arguments
+      [{:node-type :argument,
+        :argument-name #<Box@45d9a341: "id">,
+        :value #<Box@499fb18c: 4>}],
+      :selection-set
+      [{:node-type :field, :field-name #<Box@3b55117f: "id">}
+       {:node-type :field, :field-name #<Box@533766f: "name">}
+       {:node-type :field,
+        :name "smallPic",
+        :field-name #<Box@760d3748: "profilePic">,
+        :arguments
+        [{:node-type :argument,
+          :argument-name #<Box@1dbf038c: "size">,
+          :value #<Box@65ad1881: 64>}]}
+       {:node-type :field,
+        :name "bigPic",
+        :field-name #<Box@3e96de4f: "profilePic">,
+        :arguments
+        [{:node-type :argument,
+          :argument-name #<Box@1657dc3b: "size">,
+          :value #<Box@76a68828: 1024>}]}]}]}]}
+ {:operation-definitions
+  [{:section :operation-definitions,
+    :node-type :operation-definition,
+    :operation-type {:type "query"},
+    :selection-set
+    [{:node-type :field,
+      :name "zuck",
+      :field-name #<Box@3b6383b1: "user">,
+      :arguments
+      [{:node-type :argument,
+        :argument-name #<Box@48876796: "id">,
+        :value #<Box@3e0a893f: 4>}],
+      :selection-set
+      [{:node-type :field, :field-name #<Box@4dafc8aa: "id">}
+       {:node-type :field, :field-name #<Box@26e4af16: "name">}]}]}]}
+ {:operation-definitions
+  [{:section :operation-definitions,
+    :node-type :operation-definition,
+    :operation-type {:type "query", :name "noFragments"},
+    :selection-set
+    [{:node-type :field,
+      :field-name #<Box@274542b8: "user">,
+      :arguments
+      [{:node-type :argument,
+        :argument-name #<Box@318bae6b: "id">,
+        :value #<Box@70f038e: 4>}],
+      :selection-set
+      [{:node-type :field,
+        :field-name #<Box@1599c786: "friends">,
+        :arguments
+        [{:node-type :argument,
+          :argument-name #<Box@f73283d: "first">,
+          :value #<Box@4ffcbea6: 10>}],
+        :selection-set
+        [{:node-type :field, :field-name #<Box@61de3647: "id">}
+         {:node-type :field, :field-name #<Box@74ee452d: "name">}
+         {:node-type :field,
+          :field-name #<Box@4e3b6f45: "profilePic">,
+          :arguments
+          [{:node-type :argument,
+            :argument-name #<Box@44e62e7b: "size">,
+            :value #<Box@364906b3: 50>}]}]}
+       {:node-type :field,
+        :field-name #<Box@7dc867ce: "mutualFriends">,
+        :arguments
+        [{:node-type :argument,
+          :argument-name #<Box@5dd5e31a: "first">,
+          :value #<Box@47834431: 10>}],
+        :selection-set
+        [{:node-type :field, :field-name #<Box@30c3be71: "id">}
+         {:node-type :field, :field-name #<Box@6c64a168: "name">}
+         {:node-type :field,
+          :field-name #<Box@5af70420: "profilePic">,
+          :arguments
+          [{:node-type :argument,
+            :argument-name #<Box@1652fc90: "size">,
+            :value #<Box@37c6ef4f: 50>}]}]}]}]}]}
+ {:operation-definitions
+  [{:section :operation-definitions,
+    :node-type :operation-definition,
+    :operation-type {:type "query", :name "withFragments"},
+    :selection-set
+    [{:node-type :field,
+      :field-name #<Box@5226478f: "user">,
+      :arguments
+      [{:node-type :argument,
+        :argument-name #<Box@4c086150: "id">,
+        :value #<Box@c15055c: 4>}],
+      :selection-set
+      [{:node-type :field,
+        :field-name #<Box@3bbb5e22: "friends">,
+        :arguments
+        [{:node-type :argument,
+          :argument-name #<Box@7c22f71: "first">,
+          :value #<Box@39853987: 10>}],
+        :selection-set
+        [{:node-type :fragment-spread, :name "friendFields"}]}
+       {:node-type :field,
+        :field-name #<Box@6cd62870: "mutualFriends">,
+        :arguments
+        [{:node-type :argument,
+          :argument-name #<Box@58c98198: "first">,
+          :value #<Box@d7c13b4: 10>}],
+        :selection-set
+        [{:node-type :fragment-spread, :name "friendFields"}]}]}]}],
+  :fragment-definitions
+  [{:name "friendFields",
+    :type-condition {:type-name #<Box@67bd8f3f: "User">},
+    :selection-set
+    [{:node-type :field, :field-name #<Box@141cef78: "id">}
+     {:node-type :field, :field-name #<Box@287a0314: "name">}
+     {:node-type :field,
+      :field-name #<Box@746543da: "profilePic">,
+      :arguments
+      [{:node-type :argument,
+        :argument-name #<Box@1db29795: "size">,
+        :value #<Box@6764e75b: 50>}]}],
+    :node-type :fragment-definition,
+    :section :fragment-definitions}]}
+ {:operation-definitions
+  [{:section :operation-definitions,
+    :node-type :operation-definition,
+    :operation-type {:type "query", :name "withNestedFragments"},
+    :selection-set
+    [{:node-type :field,
+      :field-name #<Box@45e35c5a: "user">,
+      :arguments
+      [{:node-type :argument,
+        :argument-name #<Box@46c19f70: "id">,
+        :value #<Box@74f89a57: 4>}],
+      :selection-set
+      [{:node-type :field,
+        :field-name #<Box@2801bce0: "friends">,
+        :arguments
+        [{:node-type :argument,
+          :argument-name #<Box@48d69e77: "first">,
+          :value #<Box@2e7d6879: 10>}],
+        :selection-set
+        [{:node-type :fragment-spread, :name "friendFields"}]}
+       {:node-type :field,
+        :field-name #<Box@44a3b62a: "mutualFriends">,
+        :arguments
+        [{:node-type :argument,
+          :argument-name #<Box@1e19e8fa: "first">,
+          :value #<Box@66a82e7d: 10>}],
+        :selection-set
+        [{:node-type :fragment-spread, :name "friendFields"}]}]}]}],
+  :fragment-definitions
+  [{:name "friendFields",
+    :type-condition {:type-name #<Box@7f26dd1c: "User">},
+    :selection-set
+    [{:node-type :field, :field-name #<Box@7202ec53: "id">}
+     {:node-type :field, :field-name #<Box@6bd74cdb: "name">}
+     {:node-type :fragment-spread, :name "standardProfilePic"}],
+    :node-type :fragment-definition,
+    :section :fragment-definitions}
+   {:name "standardProfilePic",
+    :type-condition {:type-name #<Box@2886ed00: "User">},
+    :selection-set
+    [{:node-type :field,
+      :field-name #<Box@2505c9a7: "profilePic">,
+      :arguments
+      [{:node-type :argument,
+        :argument-name #<Box@edd37fc: "size">,
+        :value #<Box@1974e801: 50>}]}],
+    :node-type :fragment-definition,
+    :section :fragment-definitions}]}
+ {:operation-definitions
+  [{:section :operation-definitions,
+    :node-type :operation-definition,
+    :operation-type {:type "query", :name "FragmentTyping"},
+    :selection-set
+    [{:node-type :field,
+      :field-name #<Box@38b0df7e: "profiles">,
+      :arguments
+      [{:node-type :argument,
+        :argument-name #<Box@322da8d1: "handles">,
+        :value #<Box@771dbacd: {:values ["zuck" "cocacola"]}>}],
+      :selection-set
+      [{:node-type :field, :field-name #<Box@22638882: "handle">}
+       {:node-type :fragment-spread, :name "userFragment"}
+       {:node-type :fragment-spread, :name "pageFragment"}]}]}],
+  :fragment-definitions
+  [{:name "userFragment",
+    :type-condition {:type-name #<Box@4c170ae8: "User">},
+    :selection-set
+    [{:node-type :field,
+      :field-name #<Box@11507aa3: "friends">,
+      :selection-set
+      [{:node-type :field, :field-name #<Box@45053d8a: "count">}]}],
+    :node-type :fragment-definition,
+    :section :fragment-definitions}
+   {:name "pageFragment",
+    :type-condition {:type-name #<Box@66810c8e: "Page">},
+    :selection-set
+    [{:node-type :field,
+      :field-name #<Box@4154691d: "likers">,
+      :selection-set
+      [{:node-type :field, :field-name #<Box@35cc8518: "count">}]}],
+    :node-type :fragment-definition,
+    :section :fragment-definitions}]}
+ {:operation-definitions
+  [{:section :operation-definitions,
+    :node-type :operation-definition,
+    :operation-type {:type "query", :name "inlineFragmentTyping"},
+    :selection-set
+    [{:node-type :field,
+      :field-name #<Box@5f8709d5: "profiles">,
+      :arguments
+      [{:node-type :argument,
+        :argument-name #<Box@51a80572: "handles">,
+        :value #<Box@175712a: {:values ["zuck" "cocacola"]}>}],
+      :selection-set
+      [{:node-type :field, :field-name #<Box@2d6f7044: "handle">}
+       {:node-type :inline-fragment,
+        :type-condition {:type-name #<Box@2712df97: "User">},
+        :selection-set
+        [{:node-type :field,
+          :field-name #<Box@78ed8153: "friends">,
+          :selection-set
+          [{:node-type :field,
+            :field-name #<Box@2db6b195: "count">}]}]}
+       {:node-type :inline-fragment,
+        :type-condition {:type-name #<Box@33430aab: "Page">},
+        :selection-set
+        [{:node-type :field,
+          :field-name #<Box@13735053: "likers">,
+          :selection-set
+          [{:node-type :field,
+            :field-name #<Box@732fdf46: "count">}]}]}]}]}]}
+ {:operation-definitions
+  [{:section :operation-definitions,
+    :node-type :operation-definition,
+    :operation-type {:type "query", :name "HeroForEpisode"},
+    :variable-definitions
+    [{:node-type :variable-definition,
+      :variable-name #<Box@7645c00e: "ep">,
+      :type-name #<Box@1eaf11d6: "Episode">,
+      :required true}],
+    :selection-set
+    [{:node-type :field,
+      :field-name #<Box@78f70b64: "hero">,
+      :arguments
+      [{:node-type :argument,
+        :argument-name #<Box@6fa6adbc: "episode">,
+        :variable-name #<Box@1165dbc5: "ep">}],
+      :selection-set
+      [{:node-type :field, :field-name #<Box@2a859a66: "name">}
+       {:node-type :inline-fragment,
+        :type-condition {:type-name #<Box@2b69f4a7: "Droid">},
+        :selection-set
+        [{:node-type :field,
+          :field-name #<Box@1ed5c96c: "primaryFunction">}]}]}]}]}
+ {:operation-definitions
+  [{:section :operation-definitions,
+    :node-type :operation-definition,
+    :operation-type {:type "query", :name "inlineFragmentNoType"},
+    :variable-definitions
+    [{:node-type :variable-definition,
+      :variable-name #<Box@59353bbd: "expandedInfo">,
+      :type-name #<Box@61aeab49: "Boolean">}],
+    :selection-set
+    [{:node-type :field,
+      :field-name #<Box@3d4a54d: "user">,
+      :arguments
+      [{:node-type :argument,
+        :argument-name #<Box@6a508a5a: "handle">,
+        :value #<Box@1580d6b0: "zuck">}],
+      :selection-set
+      [{:node-type :field, :field-name #<Box@43add2e1: "id">}
+       {:node-type :field, :field-name #<Box@34635569: "name">}
+       {:node-type :inline-fragment,
+        :directives
+        [{:node-type :directive,
+          :name "include",
+          :arguments
+          [{:node-type :argument,
+            :argument-name #<Box@54bc93c5: "if">,
+            :variable-name #<Box@32e984b9: "expandedInfo">}]}],
+        :selection-set
+        [{:node-type :field, :field-name #<Box@4a475053: "firstName">}
+         {:node-type :field, :field-name #<Box@7a24380a: "lastName">}
+         {:node-type :field,
+          :field-name #<Box@31db0501: "birthday">}]}]}]}]}
+ {:operation-definitions
+  [{:section :operation-definitions,
+    :node-type :operation-definition,
+    :operation-type {:type "query", :name "getZuckProfile"},
+    :variable-definitions
+    [{:node-type :variable-definition,
+      :variable-name #<Box@54e40950: "devicePicSize">,
+      :type-name #<Box@1d3953af: "Int">}],
+    :selection-set
+    [{:node-type :field,
+      :field-name #<Box@3671737: "user">,
+      :arguments
+      [{:node-type :argument,
+        :argument-name #<Box@64f06e14: "id">,
+        :value #<Box@36e47004: 4>}],
+      :selection-set
+      [{:node-type :field, :field-name #<Box@3dd8be3: "id">}
+       {:node-type :field, :field-name #<Box@53c25354: "name">}
+       {:node-type :field,
+        :field-name #<Box@5cfe09c1: "profilePic">,
+        :arguments
+        [{:node-type :argument,
+          :argument-name #<Box@488a8c09: "size">,
+          :variable-name #<Box@4d149e65: "devicePicSize">}]}]}]}]}
+ {:operation-definitions
+  [{:section :operation-definitions,
+    :node-type :operation-definition,
+    :operation-type {:type "query", :name "hasConditionalFragment"},
+    :variable-definitions
+    [{:node-type :variable-definition,
+      :variable-name #<Box@d652100: "condition">,
+      :type-name #<Box@60cf9dd4: "Boolean">}],
+    :selection-set
+    [{:node-type :fragment-spread,
+      :name "maybeFragment",
+      :directives
+      [{:node-type :directive,
+        :name "include",
+        :arguments
+        [{:node-type :argument,
+          :argument-name #<Box@34503505: "if">,
+          :variable-name #<Box@723b2473: "condition">}]}]}]}],
+  :fragment-definitions
+  [{:name "maybeFragment",
+    :type-condition {:type-name #<Box@4f85c2eb: "Query">},
+    :selection-set
+    [{:node-type :field,
+      :field-name #<Box@3d54a312: "me">,
+      :selection-set
+      [{:node-type :field, :field-name #<Box@6b056402: "name">}]}],
+    :node-type :fragment-definition,
+    :section :fragment-definitions}]}
+ {:operation-definitions
+  [{:section :operation-definitions,
+    :node-type :operation-definition,
+    :operation-type {:type "query", :name "hasConditionalFragment"},
+    :variable-definitions
+    [{:node-type :variable-definition,
+      :variable-name #<Box@776e42c1: "condition">,
+      :type-name #<Box@6d8270ce: "Boolean">}],
+    :selection-set
+    [{:node-type :fragment-spread, :name "maybeFragment"}]}],
+  :fragment-definitions
+  [{:name "maybeFragment",
+    :type-condition {:type-name #<Box@6fc17509: "Query">},
+    :directives
+    [{:node-type :directive,
+      :name "include",
+      :arguments
+      [{:node-type :argument,
+        :argument-name #<Box@360bda24: "if">,
+        :variable-name #<Box@127748b7: "condition">}]}],
+    :selection-set
+    [{:node-type :field,
+      :field-name #<Box@8c90800: "me">,
+      :selection-set
+      [{:node-type :field, :field-name #<Box@131da171: "name">}]}],
+    :node-type :fragment-definition,
+    :section :fragment-definitions}]}
+ {:operation-definitions
+  [{:section :operation-definitions,
+    :node-type :operation-definition,
+    :operation-type {:type "query", :name "myQuery"},
+    :variable-definitions
+    [{:node-type :variable-definition,
+      :variable-name #<Box@2e11f2a1: "someTest">,
+      :type-name #<Box@3a118951: "Boolean">}],
+    :selection-set
+    [{:node-type :field,
+      :field-name #<Box@312927ea: "experimentalField">,
+      :directives
+      [{:node-type :directive,
+        :name "skip",
+        :arguments
+        [{:node-type :argument,
+          :argument-name #<Box@6fdeae9d: "if">,
+          :variable-name #<Box@75fc5a48: "someTest">}]}]}]}]}
+ {:operation-definitions
+  [{:section :operation-definitions,
+    :node-type :operation-definition,
+    :operation-type {:type "mutation", :name "setName"},
+    :selection-set
+    [{:node-type :field,
+      :field-name #<Box@6e4990c4: "setName">,
+      :arguments
+      [{:node-type :argument,
+        :argument-name #<Box@9de47ce: "name">,
+        :value #<Box@64537137: "Zuck">}],
+      :selection-set
+      [{:node-type :field,
+        :field-name #<Box@5f77b899: "newName">}]}]}]}
+ {:operation-definitions
+  [{:section :operation-definitions,
+    :node-type :operation-definition,
+    :operation-type {:type "query"},
+    :selection-set
+    [{:node-type :field,
+      :field-name #<Box@18d6515f: "human">,
+      :arguments
+      [{:node-type :argument,
+        :argument-name #<Box@461c01f6: "id">,
+        :value #<Box@655dccc4: 1000>}],
+      :selection-set
+      [{:node-type :field, :field-name #<Box@194e8802: "name">}
+       {:node-type :field,
+        :field-name #<Box@4b7fec9a: "height">,
+        :arguments
+        [{:node-type :argument,
+          :argument-name #<Box@67e0fae: "unit">,
+          :value #<Box@12a600bf: "FOOT">}]}
+       {:node-type :field,
+        :field-name #<Box@69b61ca5: "weight">,
+        :arguments
+        [{:node-type :argument,
+          :argument-name #<Box@3ab555f6: "above">,
+          :value #<Box@371bd24a: 100>}]}]}]}]}
+ {:operation-definitions
+  [{:section :operation-definitions,
+    :node-type :operation-definition,
+    :operation-type {:type "query", :name "WithDefaultValues"},
+    :variable-definitions
+    [{:node-type :variable-definition,
+      :variable-name #<Box@261fd8bf: "a">,
+      :type-name #<Box@75528eb5: "Int">,
+      :default-value #<Box@2efb45f8: 1>}
+     {:node-type :variable-definition,
+      :variable-name #<Box@5db826e6: "b">,
+      :type-name #<Box@21bb760a: "String">,
+      :required true,
+      :default-value #<Box@6d8c3977: "ok">}
+     {:node-type :variable-definition,
+      :variable-name #<Box@2d2a6497: "c">,
+      :type-name #<Box@55d117ab: "ComplexInput">,
+      :default-value
+      #<Box@1c9e2517: 
+        [:object-value
+         [{:name "requiredField", :value true}
+          {:name "intField", :value 3}]]>}],
+    :selection-set
+    [{:node-type :field,
+      :field-name #<Box@5c78837: "dog">,
+      :selection-set
+      [{:node-type :field, :field-name #<Box@5bc5511d: "name">}]}]}]}
+ {:type-system-definitions
+  [{:node-type :input-definition,
+    :type-name #<Box@4d725178: "Hello">,
+    :section :type-system-definitions,
+    :fields
+    [{:node-type :input-type-field,
+      :field-name #<Box@45355e3d: "world">,
+      :type-name #<Box@3a6abdd2: "String">,
+      :required true}
+     {:node-type :input-type-field,
+      :field-name #<Box@72f24c73: "this">,
+      :type-name #<Box@2070bd37: "Int">}],
+    :kind :INPUT_OBJECT}]}
+ {:type-system-definitions
+  [{:node-type :type-definition,
+    :type-name #<Box@78e5916b: "Hello">,
+    :section :type-system-definitions,
+    :fields
+    [{:node-type :type-field,
+      :field-name #<Box@3a7946ef: "world">,
+      :type-name #<Box@328073ea: "String">,
+      :required true,
+      :arguments
+      [{:node-type :type-field-argument,
+        :argument-name #<Box@613068a7: "flag">,
+        :type-name #<Box@26cd422c: "Boolean">,
+        :default-value true}]}
+     {:node-type :type-field,
+      :field-name #<Box@1083e23d: "this">,
+      :type-name #<Box@33b51870: "Int">}],
+    :kind :OBJECT}]}
+ {:operation-definitions
+  [{:section :operation-definitions,
+    :node-type :operation-definition,
+    :operation-type {:type "query"},
+    :selection-set
+    [{:node-type :field,
+      :name "empireHero",
+      :field-name #<Box@5820a92f: "hero">,
+      :arguments
+      [{:node-type :argument,
+        :argument-name #<Box@7fe922f0: "episode">,
+        :value #<Box@61327c0b: "EMPIRE">}],
+      :selection-set
+      [{:node-type :field, :field-name #<Box@601470d2: "name">}]}
+     {:node-type :field,
+      :name "jediHero",
+      :field-name #<Box@5755a16b: "hero">,
+      :arguments
+      [{:node-type :argument,
+        :argument-name #<Box@103319e3: "episode">,
+        :value #<Box@6b4ffa83: "JEDI">}],
+      :selection-set
+      [{:node-type :field, :field-name #<Box@66c36553: "name">}]}]}]}
+ {:operation-definitions
+  [{:section :operation-definitions,
+    :node-type :operation-definition,
+    :operation-type {:type "query"},
+    :selection-set
+    [{:node-type :field,
+      :name "leftComparison",
+      :field-name #<Box@660bb4fc: "hero">,
+      :arguments
+      [{:node-type :argument,
+        :argument-name #<Box@628dd2b9: "episode">,
+        :value #<Box@490056a6: "EMPIRE">}],
+      :selection-set
+      [{:node-type :fragment-spread, :name "comparisonFields"}]}
+     {:node-type :field,
+      :name "rightComparison",
+      :field-name #<Box@4461d31f: "hero">,
+      :arguments
+      [{:node-type :argument,
+        :argument-name #<Box@37b34328: "episode">,
+        :value #<Box@6f154894: "JEDI">}],
+      :selection-set
+      [{:node-type :fragment-spread, :name "comparisonFields"}]}]}],
+  :fragment-definitions
+  [{:name "comparisonFields",
+    :type-condition {:type-name #<Box@1f785a0d: "Character">},
+    :selection-set
+    [{:node-type :field, :field-name #<Box@2967089f: "name">}
+     {:node-type :field, :field-name #<Box@63703bf9: "appearsIn">}
+     {:node-type :field,
+      :field-name #<Box@89bcac0: "friends">,
+      :selection-set
+      [{:node-type :field, :field-name #<Box@4d9bb8d1: "name">}]}],
+    :node-type :fragment-definition,
+    :section :fragment-definitions}]}
+ {:operation-definitions
+  [{:section :operation-definitions,
+    :node-type :operation-definition,
+    :operation-type {:type "mutation"},
+    :selection-set
+    [{:node-type :field,
+      :field-name #<Box@59c446a3: "createHuman">,
+      :arguments
+      [{:node-type :argument,
+        :argument-name #<Box@7852420: "name">,
+        :variable-name #<Box@54a86ede: "testname">}
+       {:node-type :argument,
+        :argument-name #<Box@56436b13: "friends">,
+        :value #<Box@20252550: {:values []}>}],
+      :selection-set
+      [{:node-type :field, :field-name #<Box@cfb9575: "id">}]}]}]})
