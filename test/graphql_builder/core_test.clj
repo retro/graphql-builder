@@ -6,7 +6,7 @@
             [clojure.pprint :as pp]
             [clojure.string :as str]
             [graphql-builder.util :refer [nl-join]]
-            [graphql-builder.parser :refer [parse]]))
+            [graphql-builder.parser :refer [parse defgraphql]]))
 
 (def test-statements (map str/trim (edn/read-string (slurp "test/graphql_builder/resources/statements.edn"))))
 (def parsed-statements (map parse test-statements))
@@ -303,4 +303,25 @@ query ComposedQuery($LoadStarships1__starshipCount: Int!, $LoadStarships2__stars
     (is (= {:load-starships-1 {"foo" :bar}}
            (unpack {"LoadStarships1__foo" :bar})))))
 
+(defgraphql parsed-graphql
+  "test/graphql_builder/resources/1.graphql"
+  "test/graphql_builder/resources/2.graphql")
 
+(deftest defgrapqhl-test
+  (is (= {:fragment-definitions [{:name "pilotFragment",
+                                  :node-type :fragment-definition,
+                                  :section :fragment-definitions,
+                                  :selection-set [{:field-name "name", :node-type :field}
+                                                  {:field-name "homeworld",
+                                                   :node-type :field,
+                                                   :selection-set [{:field-name "name",
+                                                                    :node-type :field}]}],
+                                  :type-condition {:type-name "Person"}}],
+          :operation-definitions [{:node-type :operation-definition,
+                                   :operation-type {:name "LoadStarships", :type "query"},
+                                   :section :operation-definitions,
+                                   :selection-set [{:field-name "allStarships",
+                                                    :node-type :field,
+                                                    :selection-set [{:field-name "name",
+                                                                     :node-type :field}]}]}]}
+         parsed-graphql)))

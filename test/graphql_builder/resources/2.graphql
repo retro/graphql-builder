@@ -1,0 +1,4 @@
+fragment pilotFragment on Person {
+  name
+  homeworld { name }
+}
