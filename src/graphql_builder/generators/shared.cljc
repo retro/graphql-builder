@@ -12,25 +12,35 @@
     (str "[" (str/join ", " (map quote-arg values)) "]")
     (quote-arg value)))
 
-(defn argument-value [argument]
+(defn add-var-prefix [prefix name]
+  (if prefix
+    (str prefix "__" name)
+    name))
+
+(defn argument-value [argument config]
   (let [value (:value argument)
         variable-name (:variable-name argument)]
     (cond
       (boolean value) (argument-value-value value)
-      (boolean variable-name) (str "$" variable-name))))
+      (boolean variable-name) (str "$" (add-var-prefix (:prefix config) variable-name)))))
 
-(defn node-arguments [node]
+(defn argument-name [argument config]
+  (let [prefix (:prefix config)
+        name (:argument-name argument)]
+    (add-var-prefix prefix name)))
+
+(defn node-arguments [node config]
   (when-let [arguments (:arguments node)]
     (str "("
-         (str/join ", " (map #(str (:argument-name %) ": " (argument-value %)) arguments))
+         (str/join ", " (map #(str (:argument-name %) ": " (argument-value % config)) arguments))
          ")")))
 
-(defn directive [d]
-  (str "@" (:name d) (node-arguments d)))
+(defn directive [d config]
+  (str "@" (:name d) (node-arguments d config)))
 
-(defn directives [node]
+(defn directives [node config]
   (when-let [ds (:directives node)]
-    (str " " (str/join " " (map directive ds)))))
+    (str " " (str/join " " (map (fn [d] (directive d config)) ds)))))
 
 (defn fragment-type-name [node]
   (when-let [name (get-in node [:type-condition :type-name])]

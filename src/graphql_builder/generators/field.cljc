@@ -1,5 +1,5 @@
 (ns graphql-builder.generators.field
-  (:require [graphql-builder.util :as util]
+  (:require [graphql-builder.util :as util :refer [combine-children]]
             [clojure.string :as str]
             [graphql-builder.generators.shared :refer [node-arguments directives open-block close-block]]))
 
@@ -10,10 +10,10 @@
       (str name ": " field-name)
       field-name)))
 
-(defn generator [visitor config indent-level node]
+(defn generate [visitor deps config indent-level node]
   [(str (util/indent indent-level (field-name node))
-        (directives node)
-        (node-arguments node)
+        (directives node config)
+        (node-arguments node config)
         (open-block node))
-   (visitor config (inc indent-level) (:selection-set node))
+   (visitor deps config (inc indent-level) (:selection-set node))
    (close-block node indent-level)])
