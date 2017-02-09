@@ -1,6 +1,5 @@
 (ns graphql-builder.core
-  (:require [graphql-clj.validator :as validator]
-            [graphql-builder.util :as util]
+  (:require [graphql-builder.util :as util]
             [graphql-builder.generators.operation :as operation]
             [graphql-builder.generators.field :as field]
             [graphql-builder.generators.fragment-spread :as fragment-spread]
