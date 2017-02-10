@@ -243,20 +243,20 @@ query {
 but, with graphql-builder you can compose this query from the application code:
 
 
-```
+```clojure
  (def composed-query
    (core/composed-query graphql-queries {:jedi-hero "Hero" :empire-hero "Hero"}))
 ```
 
 Now you can call this function and it will handle namespacing both of the query and the variables automatically:
 
-```
+```clojure
 (composed-query {:empire-hero {:episode "EMPIRE"}} {:jedi-hero {:episode "JEDI"}})
 ```
 
 This function will return the same object like the functions created by the `query-map`:
 
-```
+```clojure
 ;; return value from the load-starships-query function
 {:graphql {:query "GraphQL Query string"
            :variables {...} ;; variables passed to the load-starships-query function
@@ -280,7 +280,7 @@ query ComposedQuery($JediHero__episode: String!, $EmpireHero__episode: String!) 
 
 When you receive the result, you can use the returned `unpack` function to unpack them.
 
-```
+```clojure
 (unpack {"EmpireHero__hero" {:name "Foo"} "JediHero__hero" {:name "Bar"}})
 
 ;; This will return the unpacked results:
