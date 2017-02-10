@@ -2,7 +2,7 @@
 
 [![Clojars Project](https://img.shields.io/clojars/v/floatingpointio/graphql-builder.svg)](https://clojars.org/floatingpointio/graphql-builder)
 
-A Clojure(Script) library designed to help with the consumation of GraphQL APIs.
+A Clojure(Script) library designed to help with the consuming of GraphQL APIs.
 
 ## Why
 
