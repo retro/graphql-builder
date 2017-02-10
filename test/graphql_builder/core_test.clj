@@ -303,6 +303,34 @@ query ComposedQuery($LoadStarships1__starshipCount: Int!, $LoadStarships2__stars
     (is (= {:load-starships-1 {"foo" :bar}}
            (unpack {"LoadStarships1__foo" :bar})))))
 
+(def composed-query-source-2 "
+query Hero($episode: String!) {
+  hero(episode: $episode) {
+    name
+  }
+}
+")
+
+(def composed-query-result-2 "
+query ComposedQuery($JediHero__episode: String!, $EmpireHero__episode: String!) {
+  JediHero__hero: hero(episode: $JediHero__episode) {
+    name
+  }
+  EmpireHero__hero: hero(episode: $EmpireHero__episode) {
+    name
+  }
+}
+")
+
+(deftest composed-query-test-2
+  (let [composed-fn (core/composed-query (parse composed-query-source-2)
+                                         {:jedi-hero "Hero"
+                                          :empire-hero "Hero"})
+        composed-query (composed-fn)
+        unpack (:unpack composed-query)]
+    (is (= (str/trim composed-query-result-2)
+           (get-in composed-query [:graphql :query])))))
+
 (defgraphql parsed-graphql
   "test/graphql_builder/resources/1.graphql"
   "test/graphql_builder/resources/2.graphql")

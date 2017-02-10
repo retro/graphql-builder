@@ -118,6 +118,8 @@ you could access the `LoadStarships` function like this:
 The returned function accepts one argument: query variables (if needed). Calling the function will return the following:
 
 ```clojure
+(load-starships-query {})
+
 ;; return value from the load-starships-query function
 {:graphql {:query "GraphQL Query string"
            :variables {...} ;; variables passed to the load-starships-query function
@@ -126,9 +128,168 @@ The returned function accepts one argument: query variables (if needed). Calling
  :unpack (fn [data])} ;; function used to unpack the data returned from the GraphQL query
 ```
 
+The returned GraphQL Query will contain all of the referenced fragments.
+
 Calling the GraphQL API is out of the scope of this library, but it can be easily implemented with any of the ClojureScript AJAX Libraries.
 
-The documentation and this readme are very much WIP, so if you want to check the more advanced features take a look at the [tests](https://github.com/retro/graphql-builder/blob/master/test/graphql_builder/core_test.clj)
+### Fragment Inlining
+
+graphql-builder can inline the referenced fragments inside the query. To inline the fragments, pass the `{:inline-fragments true}` config to the `query-map` function:
+
+```clojure
+(ns graphql-test
+    (:require
+        [graphql-builder.parser :refer-macros [defgraphql]]
+        [graphql-builder.core :as core]))
+
+(defgraphql graphq-queries "file1.graphql" "file2.graphql")
+(def query-map (core/query-map graphql-queries) {:inline-fragments true})
+```
+
+If you called the `load-starships-query` function again, the returned GraphQL string would look like this:
+
+```
+query LoadStarships($starshipCount: Int!) {
+  allStarships(first: $starshipCount) {
+    edges {
+      node {
+        id
+        name
+        model
+        costInCredits
+        pilotConnection {
+          edges {
+            node {
+              name
+              homeworld {
+                name
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+```
+
+### Query prefixing (namespacing)
+
+grapqhl-builder can "namespace" the GraphQL query. To namespace the query, pass the `{:inline-fragmens true}` config to the `query-map` function:
+
+```clojure
+(ns graphql-test
+    (:require
+        [graphql-builder.parser :refer-macros [defgraphql]]
+        [graphql-builder.core :as core]))
+
+(defgraphql graphq-queries "file1.graphql" "file2.graphql")
+(def query-map (core/query-map graphql-queries) {:prefix "NameSpace"})
+```
+
+If you called the `load-starships-query` function again, the returned GraphQL string would look like this:
+
+```
+query LoadStarships($NameSpace__starshipCount: Int!) {
+  NameSpace__allStarships: allStarships(first: $NameSpace__starshipCount) {
+    edges {
+      node {
+        id
+        name
+        model
+        costInCredits
+        pilotConnection {
+          edges {
+            node {
+              ...pilotFragment
+            }
+          }
+        }
+      }
+    }
+  }
+}
+```
+
+If the referenced fragments use variables, you **must** inline them to get the correct behavior.
+
+### Query Composition
+
+Fragment inlining and namespacing are cool features on their own, but together they unlock the possibility to compose the queries.
+
+Let's say that you have GraphQL file that contains the following query:
+
+```
+query Hero($episode: String!) {
+  hero(episode: $episode) {
+    name
+  }
+}
+```
+
+and you want to call the query for multiple episodes. Usually you would create another query for this:
+
+```
+query {
+  empireHero: hero(episode: EMPIRE) {
+    name
+  }
+  jediHero: hero(episode: JEDI) {
+    name
+  }
+}
+``` 
+
+but, with graphql-builder you can compose this query from the application code:
+
+
+```
+ (def composed-query
+   (core/composed-query graphql-queries {:jedi-hero "Hero" :empire-hero "Hero"}))
+```
+
+Now you can call this function and it will handle namespacing both of the query and the variables automatically:
+
+```
+(composed-query {:empire-hero {:episode "EMPIRE"}} {:jedi-hero {:episode "JEDI"}})
+```
+
+This function will return the same object like the functions created by the `query-map`:
+
+```
+;; return value from the load-starships-query function
+{:graphql {:query "GraphQL Query string"
+           :variables {...} ;; variables passed to the load-starships-query function
+           :operationName "..." ;; Name of the query
+           }
+ :unpack (fn [data])} ;; function used to unpack the data returned from the GraphQL query
+```
+
+In this case the GraphQL query string will look like this:
+
+```
+query ComposedQuery($JediHero__episode: String!, $EmpireHero__episode: String!) {
+  JediHero__hero: hero(episode: $JediHero__episode) {
+    name
+  }
+  EmpireHero__hero: hero(episode: $EmpireHero__episode) {
+    name
+  }
+}
+```
+
+When you receive the result, you can use the returned `unpack` function to unpack them.
+
+```
+(unpack {"EmpireHero__hero" {:name "Foo"} "JediHero__hero" {:name "Bar"}})
+
+;; This will return the unpacked results:
+
+{:empire-hero {"hero" "Foo"}
+ :jedi-hero {"hero" "Bar"}}
+```
+
+[Tests](https://github.com/retro/graphql-builder/blob/master/test/graphql_builder/core_test.clj)
 
 ## License
 
