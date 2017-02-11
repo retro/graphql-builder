@@ -353,3 +353,32 @@ query ComposedQuery($JediHero__episode: String!, $EmpireHero__episode: String!) 
                                                     :selection-set [{:field-name "name",
                                                                      :node-type :field}]}]}]}
          parsed-graphql)))
+
+(def query-custom-type-test-source "
+mutation createSiteWithSchema($name: String!, $label: String!, $contentSchema: [ContentFieldInput]!) {
+  createSiteWithSchema(name: $name, label: $label, contentSchema: $contentSchema) {
+    id
+    name
+    label
+    contentSchema {
+      ...contentSchemaSelection
+    }
+  }
+}
+fragment contentSchemaSelection on ContentField {
+  type
+  fieldType
+  constraints
+  extendsType
+  allowedType
+  allowedTypes
+  fields {
+    fieldType
+    fieldName
+  }
+}
+")
+
+(deftest query-custom-type-test
+  (is (= (str/trim query-custom-type-test-source)
+         (core/generated->graphql (core/generate (parse query-custom-type-test-source))))))
