@@ -5,7 +5,7 @@
             [graphql-builder.core :as core]
             [clojure.pprint :as pp]
             [clojure.string :as str]
-            [graphql-builder.util :refer [nl-join]]
+            [graphql-builder.util :refer [nl-join variables->graphql]]
             [graphql-builder.parser :refer [parse defgraphql]]))
 
 (def test-statements (map str/trim (edn/read-string (slurp "test/graphql_builder/resources/statements.edn"))))
@@ -382,3 +382,8 @@ fragment contentSchemaSelection on ContentField {
 (deftest query-custom-type-test
   (is (= (str/trim query-custom-type-test-source)
          (core/generated->graphql (core/generate (parse query-custom-type-test-source))))))
+
+
+(deftest variables->graphql-test
+  (is (= {"fooBar" "baz"}
+         (variables->graphql {:foo-bar "baz"}))))
