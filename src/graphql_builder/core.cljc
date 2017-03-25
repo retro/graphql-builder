@@ -32,9 +32,9 @@
     (collect-deps visitor deps node)))
 
 (defn collect-deps-visit-nodes [deps coll]
-  (if (seq coll)
-    (map (fn [node]
-           (collect-deps-visit-node collect-deps-visit-nodes deps node)) coll)))
+  (when (seq coll)
+    (let [collected-deps (map #(collect-deps-visit-node collect-deps-visit-nodes deps %) coll)]
+      collected-deps)))
 
 (defn generate-dispatch [node]
   (case (:node-type node)
@@ -53,8 +53,13 @@
     (map (fn [node]
            (generate-visit-node generate-visit-nodes deps config indent-level node)) coll)))
 
+(defn get-with-nested-deps [fragments deps]
+  (reduce (fn [acc dep]
+            (set (concat acc (get-with-nested-deps fragments (:deps (get fragments dep)))))) (set deps) deps))
+
 (defn realize-deps [fragments deps]
-  (reduce (fn [acc f] (assoc acc f (get fragments f))) {} deps))
+  (let [with-nested-deps (get-with-nested-deps fragments deps)]
+    (reduce (fn [acc f] (assoc acc f (get fragments f))) {} with-nested-deps)))
 
 (defn generate-node [config fragments node]
   (let [deps (set (collect-deps-visit-node collect-deps-visit-nodes [] node))
@@ -72,7 +77,10 @@
   ([parsed-statement config]
    (let [nodes (apply concat (vals parsed-statement))
          fragment-definitions (:fragment-definitions parsed-statement)
-         fragments (reduce (fn [acc f] (assoc acc (:name f) f)) {} fragment-definitions)]
+         fragments (reduce
+                    (fn [acc f]
+                      (assoc acc (:name f) (assoc f :deps (collect-deps-visit-node collect-deps-visit-nodes [] f))))
+                    {} fragment-definitions)]
      (reduce (fn [acc node]
                (assoc-in acc [(node-type->key (:node-type node)) (node-name node)]
                          (generate-node config fragments node))) {} nodes))))

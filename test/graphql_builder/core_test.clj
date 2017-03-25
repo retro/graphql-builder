@@ -387,3 +387,84 @@ fragment contentSchemaSelection on ContentField {
 (deftest variables->graphql-test
   (is (= {"fooBar" "baz"}
          (variables->graphql {:foo-bar "baz"}))))
+
+
+(def nested-fragment-source "
+query User {
+  user {
+    ...userFields
+  }
+}
+
+fragment userFields on User {
+  name
+  messages {
+    ...messageFields
+  }
+}
+
+fragment messageFields on Message {
+  title
+}
+")
+
+(def nested-fragment-result
+"
+query User {
+  user {
+    ...userFields
+  }
+}
+fragment userFields on User {
+  name
+  messages {
+    ...messageFields
+  }
+}
+fragment messageFields on Message {
+  title
+}
+")
+
+(deftest nested-fragment-test
+  (let [query-map (core/query-map (parse nested-fragment-source) {})
+        query-fn (get-in query-map [:query :user])]
+    (is (= (str/trim nested-fragment-result)
+           (get-in (query-fn) [:graphql :query])))))
+
+(def inline-nested-fragment-source "
+query User {
+  user {
+    ...userFields
+  }
+}
+
+fragment userFields on User {
+  name
+  messages {
+    ...messageFields
+  }
+}
+
+fragment messageFields on Message {
+  title
+}
+")
+
+(def inline-nested-fragment-result
+"
+query User {
+  user {
+    name
+    messages {
+      title
+    }
+  }
+}
+")
+
+(deftest inline-nested-fragment-test
+  (let [query-map (core/query-map (parse inline-nested-fragment-source) {:inline-fragments true})
+        query-fn (get-in query-map [:query :user])]
+    (is (= (str/trim inline-nested-fragment-result)
+           (get-in (query-fn) [:graphql :query])))))
