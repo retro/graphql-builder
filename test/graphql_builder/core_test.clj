@@ -331,6 +331,39 @@ query ComposedQuery($JediHero__episode: String!, $EmpireHero__episode: String!) 
     (is (= (str/trim composed-query-result-2)
            (get-in composed-query [:graphql :query])))))
 
+(def composed-query-result-3 "
+query ComposedQuery($LoadStarships1__starshipCount: Int!) {
+  LoadStarships1__allStarships: allStarships(first: $LoadStarships1__starshipCount) {
+    edges {
+      node {
+        id
+        name
+        model
+        costInCredits
+        pilotConnection {
+          edges {
+            node {
+              name
+              homeworld {
+                name
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+")
+
+(deftest composed-query-test-3
+  (let [composed-fn (core/composed-query (parse composed-query-source)
+                                         {:load-starships-1 "LoadStarships"})
+        composed-query (composed-fn)
+        unpack (:unpack composed-query)]
+    (is (= (str/trim composed-query-result-3)
+           (get-in composed-query [:graphql :query])))))
+
 (defgraphql parsed-graphql
   "test/graphql_builder/resources/1.graphql"
   "test/graphql_builder/resources/2.graphql")
