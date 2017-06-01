@@ -291,4 +291,10 @@ fragment comparisonFields on Character {
   createHuman(name: $testname, friends: []) {
     id
   }
+}"
+
+"query Complex {
+  callComplex(complexArgument: { complexAttr1: 42, complexAttr2: 1 }) {
+    xyzzy
+  }
 }"]

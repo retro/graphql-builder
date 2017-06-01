@@ -1,17 +1,12 @@
 (ns graphql-builder.generators.operation
   (:require [graphql-builder.util :as util :refer [combine-children]]
             [clojure.string :as str]
-            [graphql-builder.generators.shared :refer [quote-arg add-var-prefix]]))
-
-(defn object-default-value [value]
-  (str " = { "
-       (str/join ", "(map (fn [v] (str (:name v) ": " (quote-arg (:value v)))) value))
-       " }"))
+            [graphql-builder.generators.shared :refer [quote-arg add-var-prefix object-default-value]]))
 
 (defn default-value [variable]
   (when-let [val (:default-value variable)]
     (if (and (vector? val) (= :object-value (first val)))
-      (object-default-value (last val))
+      (str " = " (object-default-value (last val)))
       (str " = " (quote-arg val)))))
 
 (defn variable-value [variable]

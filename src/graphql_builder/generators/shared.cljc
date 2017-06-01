@@ -7,10 +7,16 @@
     (if (= (str/upper-case v) v) v (str "\"" v "\""))
     v))
 
+(defn object-default-value [value]
+  (str "{ "
+       (str/join ", "(map (fn [v] (str (:name v) ": " (quote-arg (:value v)))) value))
+       " }"))
+
 (defn argument-value-value [value]
-  (if-let [values (:values value)]
-    (str "[" (str/join ", " (map quote-arg values)) "]")
-    (quote-arg value)))
+  (cond
+    (:values value) (str "[" (str/join ", " (map quote-arg (:values value))) "]")
+    (and (vector? value) (= :object-value (first value))) (object-default-value (last value))
+    :else(quote-arg value)))
 
 (defn add-var-prefix [prefix name]
   (if prefix
