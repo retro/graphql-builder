@@ -175,7 +175,7 @@ query LoadStarships($starshipCount: Int!) {
 
 ### Query prefixing (namespacing)
 
-grapqhl-builder can "namespace" the GraphQL query. To namespace the query, pass the `{:inline-fragmens true}` config to the `query-map` function:
+grapqhl-builder can "namespace" the GraphQL query. To namespace the query, pass the `{:prefix "NameSpace"}` config to the `query-map` function:
 
 ```clojure
 (ns graphql-test
