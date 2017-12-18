@@ -501,3 +501,77 @@ query User {
         query-fn (get-in query-map [:query :user])]
     (is (= (str/trim inline-nested-fragment-result)
            (get-in (query-fn) [:graphql :query])))))
+
+
+(def fragment-nesting-on-same-type "
+
+mutation validateOrderPersonalInformation($input: ValidateOrderPersonalInformationInput!) {
+  validateOrderPersonalInformation(input: $input) {
+    ...validateOrderPersonalInformationPayloadFields
+  }
+}
+
+fragment validateOrderPersonalInformationPayloadFields on ValidateOrderPersonalInformationPayload {
+  clientMutationId
+  errors {
+    ...errorFields
+  }
+  valid
+}
+
+fragment errorFields on Error {
+  ...innerErrorFields
+  suberrors {
+    ...innerErrorFields
+    suberrors {
+      ...innerErrorFields
+      suberrors {
+        ...innerErrorFields
+      }
+    }
+  }
+}
+
+fragment innerErrorFields on Error {
+  index
+  key
+  messages
+}
+")
+
+(def fragment-nesting-on-same-type-result
+"
+mutation validateOrderPersonalInformation($input: ValidateOrderPersonalInformationInput!) {
+  validateOrderPersonalInformation(input: $input) {
+    clientMutationId
+    errors {
+      index
+      key
+      messages
+      suberrors {
+        index
+        key
+        messages
+        suberrors {
+          index
+          key
+          messages
+          suberrors {
+            index
+            key
+            messages
+          }
+        }
+      }
+    }
+    valid
+  }
+}
+")
+
+
+(deftest fragment-nesting-on-same-type-test
+  (let [query-map (core/query-map (parse fragment-nesting-on-same-type) {:inline-fragments true})
+        query-fn (get-in query-map [:mutation :validate-order-personal-information])]
+    (is (= (str/trim fragment-nesting-on-same-type-result)
+           (get-in (query-fn) [:graphql :query])))))
