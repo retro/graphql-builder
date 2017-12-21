@@ -6,7 +6,7 @@ GraphQL client library for Clojure and ClojureScript.
 
 ## Why
 
-Writing GraphQL queries in the frontend applications is not straight forward. In JavaSript world it is common to see GraphQL queries written as inline strings inside the application code:
+Writing GraphQL queries in the frontend applications is not straight forward. In JavaScript world it is common to see GraphQL queries written as inline strings inside the application code:
 
 ```javascript
 client.query(`
@@ -238,7 +238,7 @@ query {
     name
   }
 }
-``` 
+```
 
 but, with graphql-builder you can compose this query from the application code:
 
