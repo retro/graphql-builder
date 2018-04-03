@@ -591,3 +591,19 @@ mutation update($id: ID, $description: String, $otherIds: [ID!]) {
         query-fn (get-in query-map [:mutation :update])]
     (is (= (str/trim required-inside-array)
            (get-in (query-fn) [:graphql :query])))))
+
+
+(def required-inside-array-and-required-array
+"
+mutation update($id: ID, $description: String, $otherIds: [ID!]!) {
+  updateService(id: $id, description: $description, otherIds: $otherIds) {
+    ...item
+  }
+}
+")
+
+(deftest required-inside-array-and-required-array-test
+  (let [query-map (core/query-map (parse required-inside-array) {})
+        query-fn (get-in query-map [:mutation :update])]
+    (is (= (str/trim required-inside-array)
+           (get-in (query-fn) [:graphql :query])))))
