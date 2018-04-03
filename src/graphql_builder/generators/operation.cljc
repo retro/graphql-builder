@@ -10,8 +10,12 @@
       (str " = " (quote-arg val)))))
 
 (defn variable-value [variable]
-  (let [type-name (if (= :list (:node-type variable))
-                    (str "[" (get-in variable [:inner-type :type-name]) "]")
+  (let [required? (get-in variable [:inner-type :required])
+        type-name (if (= :list (:node-type variable))
+                    (str "["
+                         (get-in variable [:inner-type :type-name])
+                         (when required? "!")
+                         "]")
                     (:type-name variable))
         required? (:required variable)]
     (str type-name (when required? "!") (default-value variable))))

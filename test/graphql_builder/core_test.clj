@@ -575,3 +575,19 @@ mutation validateOrderPersonalInformation($input: ValidateOrderPersonalInformati
         query-fn (get-in query-map [:mutation :validate-order-personal-information])]
     (is (= (str/trim fragment-nesting-on-same-type-result)
            (get-in (query-fn) [:graphql :query])))))
+
+
+(def required-inside-array
+"
+mutation update($id: ID, $description: String, $otherIds: [ID!]) {
+  updateService(id: $id, description: $description, otherIds: $otherIds) {
+    ...item
+  }
+}
+")
+
+(deftest required-inside-array-test
+  (let [query-map (core/query-map (parse required-inside-array) {})
+        query-fn (get-in query-map [:mutation :update])]
+    (is (= (str/trim required-inside-array)
+           (get-in (query-fn) [:graphql :query])))))
