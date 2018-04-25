@@ -6,7 +6,7 @@
             [graphql-builder.generators.fragment :as fragment]
             [graphql-builder.generators.inline-fragment :as inline-fragment]
             [graphql-builder.generators.composed-query :as composed-query]
-            [cuerdas.core :refer [kebab]]
+            [camel-snake-kebab.core :refer [->kebab-case]]
             [clojure.string :as str]))
 
 (def node-type->key
@@ -107,7 +107,7 @@
    (let [nodes (generate parsed-statement config)
          fragments (:fragment nodes)]
      (reduce (fn [acc [name op]]
-               (assoc-in acc [(keyword (get-in op [:node :operation-type :type])) (keyword (kebab name))]
+               (assoc-in acc [(keyword (get-in op [:node :operation-type :type])) (keyword (->kebab-case name))]
                          (make-operation-fn config name op fragments))) {} (:operation nodes)))))
 
 (defn composed-query [parsed-statement queries]

@@ -1,7 +1,7 @@
 (ns graphql-builder.util
   (:require [clojure.string :as str]
-            [cuerdas.core :refer [camel]]
-            [clojure.walk :as walk]))
+            [clojure.walk :as walk]
+            [camel-snake-kebab.core :refer [->camelCase]]))
 
 (defn nl-join [coll]
   (str/join "\n" (vec (remove nil? coll))))
@@ -26,7 +26,7 @@
     (walk/postwalk (fn [x] (if (map? x) (into {} (map f x)) x)) coll)))
 
 (defn variables->graphql [vars]
-  (transform-keys (comp camel name) vars))
+  (transform-keys (comp ->camelCase name) vars))
 
 (defn reverse-map
   "Reverse the keys/values of a map"
