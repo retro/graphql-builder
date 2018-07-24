@@ -16,5 +16,5 @@
      (or (io/resource file) file))))
 
 (defmacro defgraphql [name & files]
-  `(let [parsed# (parse (str/join "\n" (map read-file [~@files])))]
-     (def ~name parsed#)))
+  (let [parsed (parse (str/join "\n" (map read-file files)))]
+    `(def ~name ~parsed)))
