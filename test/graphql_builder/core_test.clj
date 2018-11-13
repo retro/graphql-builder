@@ -607,3 +607,27 @@ mutation update($id: ID, $description: String, $otherIds: [ID!]!) {
         query-fn (get-in query-map [:mutation :update])]
     (is (= (str/trim required-inside-array)
            (get-in (query-fn) [:graphql :query])))))
+
+(def hardcoded-enum-value
+"
+query foo {
+  image(size: \"LARGE\") {
+    url
+  }
+}
+")
+
+(def processed-hardcoded-enum-value
+"
+query foo {
+  image(size: LARGE) {
+    url
+  }
+}
+")
+
+(deftest hardcoded-enum-value-test
+  (let [query-map (core/query-map (parse hardcoded-enum-value) {})
+        query-fn (get-in query-map [:query :foo])]
+    (is (= (str/trim processed-hardcoded-enum-value)
+           (get-in (query-fn) [:graphql :query])))))
