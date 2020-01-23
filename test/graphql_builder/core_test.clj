@@ -14,8 +14,8 @@
 (deftest generate-test
   ;;test if we can recreate the same GraphQL source
  (is (= test-statements
-         (map (fn [s]
-                (core/generated->graphql (core/generate s)))
+         (map-indexed (fn [idx s] 
+                        (core/generated->graphql (core/generate s)))
               parsed-statements))))
 
 (def inline-fragment-source "
@@ -734,7 +734,7 @@ query foo {
 (deftest hardcoded-enum-value-test
   (let [query-map (core/query-map (parse hardcoded-enum-value) {})
         query-fn (get-in query-map [:query :foo])]
-    (is (= (str/trim processed-hardcoded-enum-value)
+    (is (= (str/trim hardcoded-enum-value)
            (get-in (query-fn) [:graphql :query])))))
 
 (def alias-source
@@ -766,3 +766,19 @@ subscription Message {
                      [(get-in (query-fn) [:graphql :query])
                       (get-in (mutation-fn) [:graphql :query])
                       (get-in (subscription-fn) [:graphql :query])])))))
+
+(def enums-arg-source
+"
+query Foo {
+  productList(someArg: moo, otherArg: \"DESC\") {
+    name
+  }
+}
+"
+)
+
+(deftest enums-arg-test
+  (let [query-map (core/query-map (parse enums-arg-source) {})
+        query-fn (get-in query-map [:query :foo])] 
+    (is (= (str/trim enums-arg-source)
+           (get-in (query-fn) [:graphql :query])))))

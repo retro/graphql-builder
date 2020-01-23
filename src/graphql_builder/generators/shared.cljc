@@ -2,9 +2,11 @@
   (:require [clojure.string :as str]
             [graphql-builder.util :as util]))
 
+
+;; ToDo - check enum type vs string quoting, write tests for mixed enums in list node type
 (defn quote-arg [v]
   (if (string? v)
-    (if (= (str/upper-case v) v) v (str "\"" v "\""))
+    (str "\"" v "\"")
     v))
 
 (defn object-default-value [value]
@@ -16,7 +18,7 @@
   (cond
     (:values value) (str "[" (str/join ", " (map quote-arg (:values value))) "]")
     (and (vector? value) (= :object-value (first value))) (object-default-value (last value))
-    :else(quote-arg value)))
+    :else (quote-arg value)))
 
 (defn add-var-prefix [prefix name]
   (if prefix
@@ -25,9 +27,13 @@
 
 (defn argument-value [argument config]
   (let [value (:value argument)
+        value-type (:value-type argument)
         variable-name (:variable-name argument)]
     (cond
-      (boolean value) (argument-value-value value)
+      (and (boolean value)
+           (not= :enum value-type)) (argument-value-value value)
+      (and (boolean value)
+           (= :enum value-type)) value
       (boolean variable-name) (str "$" (add-var-prefix (:prefix config) variable-name)))))
 
 (defn argument-name [argument config]

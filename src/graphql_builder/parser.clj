@@ -4,6 +4,57 @@
             [clojure.string :as str]
             [clojure.java.io :as io]))
 
+(defn get-selection-set [node]
+  (let [selection-set (:alumbra/selection-set node)]
+    selection-set))
+
+(defn parse-object-values [values]
+  (conj [] 
+        :object-value 
+        (mapv (fn [v] 
+                {:name  (:field-name v)
+                 :value (get-in v [:value :value])}) values)))
+
+(defn get-default-value [node]
+  (let [value (:value (:alumbra/default-value node))]
+    (if (vector? value)
+      (parse-object-values value)
+      value)))
+
+(defn get-named-type-data [node]
+  {:node-type     :variable-definition
+   :variable-name (:alumbra/variable-name node)
+   :type-name     (get-in node [:alumbra/type :alumbra/type-name])
+   :required      (get-in node [:alumbra/type :alumbra/non-null?])
+   :default-value (get-default-value node)})
+
+(defn get-list-type-data [node]
+  {:node-type     :list
+   :variable-name (:alumbra/variable-name node)
+   :inner-type    {:type-name (get-in node [:alumbra/type :alumbra/element-type :alumbra/type-name])
+                   :required  (get-in node [:alumbra/type :alumbra/element-type :alumbra/non-null?])}
+   :kind          :LIST
+   :required      (get-in node [:alumbra/type :alumbra/non-null?])
+   :element-type  (:alumbra/element-type node)})
+
+(defn get-argument-value [node]
+  (let [value (get-in node [:alumbra/argument-value :value])]
+    (cond
+      (vector? value)                        (parse-object-values value)
+      (and (map? value)
+           (contains? value :variable-name)) nil
+      :else                                  value)))
+
+(defn get-argument-variable-name [node]
+  (let [value (get-in node [:alumbra/argument-value :value])]
+    (if (and (map? value)
+             (contains? value :variable-name)) 
+      (get value :variable-name)
+      nil)))
+
+(defn get-argument-value-type [node]
+  (get-in node [:alumbra/argument-value :value-type]))
+
 (defmulti alumbra-node->graphql-node
   (fn [node]
     (let []
@@ -25,23 +76,6 @@
         (contains? node :alumbra/directives)          :directives
         :else                                         nil))))
 
-(defn get-selection-set [node]
-  (let [selection-set (:alumbra/selection-set node)]
-    selection-set))
-
-(defn parse-object-values [values]
-  (conj [] 
-        :object-value 
-        (mapv (fn [v]
-                {:name  (:field-name v)
-                 :value (:value v)}) values)))
-
-(defn get-default-value [node]
-  (let [value (:alumbra/default-value node)]
-    (if (vector? value)
-      (parse-object-values value)
-      value)))
-
 (defmethod alumbra-node->graphql-node :default [node]
   node)
 
@@ -62,34 +96,21 @@
    :directives    (:alumbra/directives node)
    :value         (:alumbra/value node)})
 
-(defn get-argument-value [node]
-  (let [value (:alumbra/argument-value node)]
-    (cond
-      (vector? value)                        (parse-object-values value)
-      (and (map? value)
-           (contains? value :variable-name)) nil
-      :else                                  value)))
-
-(defn get-argument-variable-name [node]
-  (let [value (:alumbra/argument-value node)]
-    (if (and (map? value)
-             (contains? value :variable-name)) 
-      (get value :variable-name)
-      nil)))
-
 (defmethod alumbra-node->graphql-node :argument [node]
   {:node-type     :argument
    :argument-name (:alumbra/argument-name node)
    :value         (get-argument-value node)
-   :variable-name (get-argument-variable-name node)})
+   :variable-name (get-argument-variable-name node)
+   :value-type    (get-argument-value-type node)})
 
 (defmethod alumbra-node->graphql-node :value [node]
   (let [value-type (:alumbra/value-type node)
         value      (get node (keyword "alumbra" (name value-type)))]
-    (case value-type
-      :list     {:values value}
-      :variable {:variable-name (:alumbra/variable-name node)}
-      value)))
+    {:value-type value-type
+     :value (case value-type
+              :list     {:values (map :value value)}
+              :variable {:variable-name (:alumbra/variable-name node)}
+              value)}))
 
 (defmethod alumbra-node->graphql-node :fragment [node]
   {:node-type      :fragment-definition
@@ -113,22 +134,6 @@
   {:node-type :directive
    :name      (:alumbra/directive-name node)
    :arguments (:alumbra/arguments node)})
-
-(defn get-named-type-data [node]
-  {:node-type     :variable-definition
-   :variable-name (:alumbra/variable-name node)
-   :type-name     (get-in node [:alumbra/type :alumbra/type-name])
-   :required      (get-in node [:alumbra/type :alumbra/non-null?])
-   :default-value (get-default-value node)})
-
-(defn get-list-type-data [node]
-  {:node-type     :list
-   :variable-name (:alumbra/variable-name node)
-   :inner-type    {:type-name (get-in node [:alumbra/type :alumbra/element-type :alumbra/type-name])
-                   :required  (get-in node [:alumbra/type :alumbra/element-type :alumbra/non-null?])}
-   :kind          :LIST
-   :required      (get-in node [:alumbra/type :alumbra/non-null?])
-   :element-type  (:alumbra/element-type node)})
 
 (defmethod alumbra-node->graphql-node :variable [node]
   (let [variable-type (get-in node [:alumbra/type :alumbra/type-class])]
