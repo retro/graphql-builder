@@ -11,6 +11,7 @@
         (or 
          (= "mutation" (:alumbra/operation-type node))
          (= "query" (:alumbra/operation-type node))
+         (= "subscription" (:alumbra/operation-type node))
          (contains? node :alumbra/operation-name))    :operation
         (contains? node :alumbra/field-name)          :field
         (contains? node :alumbra/argument-name)       :argument
@@ -64,10 +65,10 @@
 (defn get-argument-value [node]
   (let [value (:alumbra/argument-value node)]
     (cond
-      (vector? value)                          (parse-object-values value)
+      (vector? value)                        (parse-object-values value)
       (and (map? value)
            (contains? value :variable-name)) nil
-      :else                                    value)))
+      :else                                  value)))
 
 (defn get-argument-variable-name [node]
   (let [value (:alumbra/argument-value node)]

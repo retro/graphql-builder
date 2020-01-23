@@ -388,6 +388,35 @@ query ComposedQuery($LoadStarships1__starshipCount: Int!) {
                 :directives    nil
                 :value         nil}]
               :directives nil
+              :value      nil}]}
+           {:section              :operation-definitions
+            :node-type            :operation-definition
+            :operation-type       {:type "subscription" :name "LoadStarships"}
+            :variable-definitions nil
+            :selection-set
+            [{:node-type  :field
+              :field-name "allStarships"
+              :name       nil
+              :arguments  nil
+              :selection-set
+              [{:node-type     :field
+                :field-name    "name"
+                :name          nil
+                :arguments     nil
+                :selection-set nil
+                :directives    nil
+                :value         nil}
+               {:node-type  :field
+                :field-name "pilot"
+                :name       nil
+                :arguments  nil
+                :selection-set
+                [{:node-type  :fragment-spread
+                  :name       "pilotFragment"
+                  :directives nil}]
+                :directives nil
+                :value      nil}]
+              :directives nil
               :value      nil}]}]
           :fragment-definitions
           [{:node-type      :fragment-definition
@@ -495,6 +524,50 @@ fragment messageFields on Message {
   (let [query-map (core/query-map (parse nested-fragment-source) {})
         query-fn (get-in query-map [:query :user])]
     (is (= (str/trim nested-fragment-result)
+           (get-in (query-fn) [:graphql :query])))))
+
+(def nested-fragment-source-on-subscription 
+"
+subscription User {
+  user {
+    ...userFields
+  }
+}
+
+fragment userFields on User {
+  name
+  messages {
+    ...messageFields
+  }
+}
+
+fragment messageFields on Message {
+  title
+}
+")
+
+(def nested-fragment-result-on-subscription
+"
+subscription User {
+  user {
+    ...userFields
+  }
+}
+fragment userFields on User {
+  name
+  messages {
+    ...messageFields
+  }
+}
+fragment messageFields on Message {
+  title
+}
+")
+
+(deftest nested-fragment-test
+  (let [query-map (core/query-map (parse nested-fragment-source-on-subscription) {})
+        query-fn (get-in query-map [:subscription :user])] 
+    (is (= (str/trim nested-fragment-result-on-subscription)
            (get-in (query-fn) [:graphql :query])))))
 
 (def inline-nested-fragment-source "
@@ -663,3 +736,33 @@ query foo {
         query-fn (get-in query-map [:query :foo])]
     (is (= (str/trim processed-hardcoded-enum-value)
            (get-in (query-fn) [:graphql :query])))))
+
+(def alias-source
+"
+query User {
+  foo: currentUser {
+    name
+  }
+}
+mutation Login {
+  bar: login {
+    token
+  }
+}
+subscription Message {
+  baz: message {
+    text: content
+  }
+}
+")
+
+(deftest aliases-test
+  (let [query-map (core/query-map (parse alias-source) {})
+        query-fn (get-in query-map [:query :user])
+        mutation-fn (get-in query-map [:mutation :login])
+        subscription-fn (get-in query-map [:subscription :message])]
+    (is (= (str/trim alias-source)
+           (str/join "\n"
+                     [(get-in (query-fn) [:graphql :query])
+                      (get-in (mutation-fn) [:graphql :query])
+                      (get-in (subscription-fn) [:graphql :query])])))))

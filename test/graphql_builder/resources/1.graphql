@@ -3,3 +3,12 @@ query LoadStarships {
     name
   }
 }
+
+subscription LoadStarships {
+  allStarships {
+    name
+    pilot {
+      ...pilotFragment
+    }
+  }
+}

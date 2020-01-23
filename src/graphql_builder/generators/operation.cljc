@@ -49,7 +49,7 @@
   (let [node-type (get-in node [:operation-type :type])
         children (:selection-set node)
         prefix (:prefix config)]
-    (if (and (= "query" node-type) prefix)
+    (if prefix
       (map #(add-prefix-to-selection-node prefix %) children)
       children)))
 
