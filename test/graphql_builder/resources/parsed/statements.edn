@@ -1,4 +1,5 @@
-({:operation-definitions
+(
+{:operation-definitions
   [{:section :operation-definitions,
     :node-type :operation-definition,
     :operation-type {:type "query"},
@@ -613,4 +614,22 @@
        {:node-type :argument,
         :argument-name "friends",
         :value {:values []}}],
-      :selection-set [{:node-type :field, :field-name "id"}]}]}]})
+      :selection-set [{:node-type :field, :field-name "id"}]}]}]}
+ {:operation-definitions
+  [{:section :operation-definitions,
+    :node-type :operation-definition,
+    :operation-type {:type "query", :name "Complex"},
+    :selection-set
+    [{:node-type :field,
+      :field-name "callComplex",
+      :arguments
+      [{:node-type :argument,
+        :argument-name "complexArgument",
+        :value
+        [:object-value
+         [{:name "complexAttr1", :value 42}
+          {:name "complexAttr2", :value 1}]]}],
+      :selection-set [{:node-type :field, :field-name "xyzzy"}]}]}]}
+)
+
+

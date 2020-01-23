@@ -3,7 +3,6 @@
   :url "https://github.com/retro/graphql-builder"
   :license {:name "MIT"
             :url "https://opensource.org/licenses/MIT"}
-  :dependencies [[org.clojure/clojure "1.9.0"]
-                 [graphql-clj "0.1.20"]
+  :dependencies [[org.clojure/clojure "1.9.0"] 
                  [alumbra/parser "0.1.7"]
                  [camel-snake-kebab "0.4.0"]])

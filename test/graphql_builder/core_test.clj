@@ -12,8 +12,8 @@
 (def parsed-statements (map parse test-statements))
 
 (deftest generate-test
-  ;; test if we can recreate the same GraphQL source
-  (is (= test-statements
+  ;;test if we can recreate the same GraphQL source
+ (is (= test-statements
          (map (fn [s]
                 (core/generated->graphql (core/generate s)))
               parsed-statements))))
@@ -369,22 +369,54 @@ query ComposedQuery($LoadStarships1__starshipCount: Int!) {
   "test/graphql_builder/resources/2.graphql")
 
 (deftest defgrapqhl-test
-  (is (= {:fragment-definitions [{:name "pilotFragment",
-                                  :node-type :fragment-definition,
-                                  :section :fragment-definitions,
-                                  :selection-set [{:field-name "name", :node-type :field}
-                                                  {:field-name "homeworld",
-                                                   :node-type :field,
-                                                   :selection-set [{:field-name "name",
-                                                                    :node-type :field}]}],
-                                  :type-condition {:type-name "Person"}}],
-          :operation-definitions [{:node-type :operation-definition,
-                                   :operation-type {:name "LoadStarships", :type "query"},
-                                   :section :operation-definitions,
-                                   :selection-set [{:field-name "allStarships",
-                                                    :node-type :field,
-                                                    :selection-set [{:field-name "name",
-                                                                     :node-type :field}]}]}]}
+  (is (= {:operations-definitions
+          [{:section              :operation-definitions
+            :node-type            :operation-definition
+            :operation-type       {:type "query" :name "LoadStarships"}
+            :variable-definitions nil
+            :selection-set
+            [{:node-type  :field
+              :field-name "allStarships"
+              :name       nil
+              :arguments  nil
+              :selection-set
+              [{:node-type     :field
+                :field-name    "name"
+                :name          nil
+                :arguments     nil
+                :selection-set nil
+                :directives    nil
+                :value         nil}]
+              :directives nil
+              :value      nil}]}]
+          :fragment-definitions
+          [{:node-type      :fragment-definition
+            :section        :fragment-definitions
+            :name           "pilotFragment"
+            :type-condition {:type-name "Person"}
+            :selection-set
+            [{:node-type     :field
+              :field-name    "name"
+              :name          nil
+              :arguments     nil
+              :selection-set nil
+              :directives    nil
+              :value         nil}
+             {:node-type  :field
+              :field-name "homeworld"
+              :name       nil
+              :arguments  nil
+              :selection-set
+              [{:node-type     :field
+                :field-name    "name"
+                :name          nil
+                :arguments     nil
+                :selection-set nil
+                :directives    nil
+                :value         nil}]
+              :directives nil
+              :value      nil}]
+            :directives     nil}]} 
          parsed-graphql)))
 
 (def query-custom-type-test-source "

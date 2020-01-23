@@ -79,7 +79,7 @@
 }
 "
 
-   ;; In this example, we can fetch two profile pictures of different sizes and ensure the resulting object will not have duplicate keys:
+   ;;In this example, we can fetch two profile pictures of different sizes and ensure the resulting object will not have duplicate keys:
    "query {
   user(id: 4) {
     id
@@ -297,4 +297,6 @@ fragment comparisonFields on Character {
   callComplex(complexArgument: { complexAttr1: 42, complexAttr2: 1 }) {
     xyzzy
   }
-}"]
+}"
+
+ ]
