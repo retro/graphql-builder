@@ -87,15 +87,7 @@
     :selection-set
     [{:node-type :field,
       :field-name "me",
-      :selection-set [{:node-type :field, :field-name "name"}]}]}]}
- {:operation-definitions
-  [{:section :operation-definitions,
-    :node-type :operation-definition,
-    :operation-type {:type "query"},
-    :selection-set
-    [{:node-type :field,
-      :field-name "me",
-      :selection-set [{:node-type :field, :field-name "name"}]}]}]}
+      :selection-set [{:node-type :field, :field-name "name"}]}]}]} 
  {:operation-definitions
   [{:section :operation-definitions,
     :node-type :operation-definition,

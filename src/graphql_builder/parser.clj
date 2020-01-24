@@ -108,7 +108,7 @@
         value      (get node (keyword "alumbra" (name value-type)))]
     {:value-type value-type
      :value (case value-type
-              :list     {:values (map :value value)}
+              :list     {:values (map #(select-keys % [:value :value-type]) value)}
               :variable {:variable-name (:alumbra/variable-name node)}
               value)}))
 
