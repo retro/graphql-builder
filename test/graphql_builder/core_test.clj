@@ -9,14 +9,12 @@
             [graphql-builder.parser :refer [parse defgraphql]]))
 
 (def test-statements (map str/trim (edn/read-string (slurp "test/graphql_builder/resources/statements.edn"))))
-(def parsed-statements (map parse test-statements))
 
 (deftest generate-test
   ;;test if we can recreate the same GraphQL source
- (is (= test-statements
-         (map-indexed (fn [idx s] 
-                        (core/generated->graphql (core/generate s)))
-              parsed-statements))))
+  (doseq [test-statement test-statements]
+    (is (= test-statement
+           (core/generated->graphql (core/generate (parse test-statement)))))))
 
 (def inline-fragment-source "
 query LoadStarships($starshipCount: Int!) {
