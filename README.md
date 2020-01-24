@@ -293,6 +293,6 @@ When you receive the result, you can use the returned `unpack` function to unpac
 
 ## License
 
-Copyright Mihael Konjevic (konjevic@gmail.com) © 2017
+Copyright Mihael Konjevic, Tibor Kranjcec (konjevic@gmail.com) © 2017
 
 Distributed under the MIT license.
