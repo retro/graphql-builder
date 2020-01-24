@@ -56,7 +56,7 @@ I wanted something similar to the [HugSQL](https://github.com/layerware/hugsql) 
 
 ## Approach
 
-This library uses the parser from the [graphql-clj](https://github.com/tendant/graphql-clj) library to parse the `.graphql` files and then implements the GraphQL code generation on top of the output format.
+This library uses the parser from the [alumbra](https://github.com/alumbra/alumbra.parser) library to parse the `.graphql` files and then implements the GraphQL code generation on top of the output format.
 
 Parsing and regenerating allows for some (automatic) advanced features:
 
@@ -64,6 +64,7 @@ Parsing and regenerating allows for some (automatic) advanced features:
 - Fragment inlining
 - Query namespacing (with prefixes)
 - Query composition - combine multiple queries into one query
+- Subscriptions
 
 ## API
 
@@ -293,6 +294,6 @@ When you receive the result, you can use the returned `unpack` function to unpac
 
 ## License
 
-Copyright Mihael Konjevic, Tibor Kranjcec (konjevic@gmail.com) © 2017
+Copyright Mihael Konjevic, Tibor Kranjcec (konjevic@gmail.com) © 2020
 
 Distributed under the MIT license.
