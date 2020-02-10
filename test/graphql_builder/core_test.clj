@@ -443,7 +443,7 @@ query ComposedQuery($LoadStarships1__starshipCount: Int!) {
                 :value         nil}]
               :directives nil
               :value      nil}]
-            :directives     nil}]} 
+            :directives     nil}]}
          parsed-graphql)))
 
 (def query-custom-type-test-source "
@@ -524,7 +524,7 @@ fragment messageFields on Message {
     (is (= (str/trim nested-fragment-result)
            (get-in (query-fn) [:graphql :query])))))
 
-(def nested-fragment-source-on-subscription 
+(def nested-fragment-source-on-subscription
 "
 subscription User {
   user {
@@ -564,7 +564,7 @@ fragment messageFields on Message {
 
 (deftest nested-fragment-test
   (let [query-map (core/query-map (parse nested-fragment-source-on-subscription) {})
-        query-fn (get-in query-map [:subscription :user])] 
+        query-fn (get-in query-map [:subscription :user])]
     (is (= (str/trim nested-fragment-result-on-subscription)
            (get-in (query-fn) [:graphql :query])))))
 
@@ -777,6 +777,20 @@ query Foo {
 
 (deftest enums-arg-test
   (let [query-map (core/query-map (parse enums-arg-source) {})
-        query-fn (get-in query-map [:query :foo])] 
+        query-fn (get-in query-map [:query :foo])]
     (is (= (str/trim enums-arg-source)
+           (get-in (query-fn) [:graphql :query])))))
+
+(def argument-false-source
+  "query Foo {
+  productList(someArg: moo, otherArg: false) {
+    name
+  }
+}
+")
+
+(deftest enums-arg-test
+  (let [query-map (core/query-map (parse argument-false-source) {})
+        query-fn (get-in query-map [:query :foo])]
+    (is (= (str/trim argument-false-source)
            (get-in (query-fn) [:graphql :query])))))

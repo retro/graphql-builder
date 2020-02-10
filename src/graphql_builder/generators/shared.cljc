@@ -38,8 +38,8 @@
   (let [value (:value argument) 
         variable-name (:variable-name argument)]
     (cond
-      (boolean value) (argument-value-value argument)
-      (boolean variable-name) (str "$" (add-var-prefix (:prefix config) variable-name)))))
+      (not (nil? value)) (argument-value-value argument)
+      (not (nil? variable-name)) (str "$" (add-var-prefix (:prefix config) variable-name)))))
 
 (defn argument-name [argument config]
   (let [prefix (:prefix config)
