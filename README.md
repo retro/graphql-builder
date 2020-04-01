@@ -76,7 +76,7 @@ Loading GraphQL files:
         [graphql-builder.parser :refer-macros [defgraphql]]
         [graphql-builder.core :as core]))
 
-(defgraphql graphq-queries "file1.graphql" "file2.graphql")
+(defgraphql graphql-queries "file1.graphql" "file2.graphql")
 (def query-map (core/query-map graphql-queries))
 ```
 
