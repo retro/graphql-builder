@@ -362,6 +362,34 @@ query ComposedQuery($LoadStarships1__starshipCount: Int!) {
     (is (= (str/trim composed-query-result-3)
            (get-in composed-query [:graphql :query])))))
 
+(def composed-mutation-source "
+mutation AddStarship($name: String!){
+    addStarship(name: $name){
+        id
+   }
+}")
+
+(def composed-mutation-result "
+query ComposedQuery($AddStarship1__name: String!, $AddStarship2__name: String!) {
+  AddStarship1__addStarship: addStarship(name: $AddStarship1__name) {
+    id
+  }
+  AddStarship2__addStarship: addStarship(name: $AddStarship2__name) {
+    id
+  }
+}")
+
+(deftest composed-mutation-test
+  (let [composed-fn (core/composed-query (parse composed-mutation-source)
+                                         {:add-starship-1 "AddStarship"
+                                          :add-starship-2 "AddStarship"})
+        composed-mutation (composed-fn)
+        unpack (:unpack composed-mutation)]
+    (is (= (str/trim composed-mutation-result)
+           (get-in composed-mutation [:graphql :query])))
+    (is (= {:add-starship-1 {"name" :bar}}
+           (unpack {"AddStarship1__name" :bar})))))
+
 (defgraphql parsed-graphql
   "test/graphql_builder/resources/1.graphql"
   "test/graphql_builder/resources/2.graphql")
