@@ -2,16 +2,53 @@
   (:require [clojure.string :as str]
             [graphql-builder.util :as util]))
 
-
 ;; ToDo - check enum type vs string quoting, write tests for mixed enums in list node type
-(defn quote-arg [v] 
+(defn quote-arg [v]
   (if (string? v)
     (str "\"" v "\"")
     v))
 
+(declare generate-arg-list)
+(declare generate-arg-vector)
+(defn generate-arg [{:keys [value-type value]}]
+  (case value-type
+     :variable (str "$" (:variable-name value))
+     :string (str "\"" value "\"")
+     :object (generate-arg-list value)
+     :list (generate-arg-vector (:values value))
+     value))
+
+(defn generate-arg-vector [args]
+  (str "["
+       (->> args
+            (mapv (fn [v]
+                    (if (vector? v)
+                      (generate-arg (first v))
+                      (generate-arg v))) )
+            (str/join ", "))
+       "]"))
+
+(defn generate-arg-list [args]
+  (str "{"
+       (->> args
+            (mapv (fn [v] (str (:field-name v) ": " (generate-arg (:value v)))))
+            (str/join ", "))
+    "}"))
+
+(defn parse-arg [v]
+  (cond
+    (and (map? v) (get v :values))
+    (generate-arg-vector (get v :values))
+
+    (vector? v)
+    (generate-arg-list v)
+
+    :else
+    (quote-arg v)))
+
 (defn object-default-value [value]
   (str "{ "
-       (str/join ", "(map (fn [v] (str (:name v) ": " (quote-arg (:value v)))) value))
+       (str/join ", " (map (fn [v] (str (:name v) ": " (parse-arg (:value v)))) value))
        " }"))
 
 (defn get-enum-or-string-value [argument]
@@ -35,7 +72,7 @@
     name))
 
 (defn argument-value [argument config]
-  (let [value (:value argument) 
+  (let [value (:value argument)
         variable-name (:variable-name argument)]
     (cond
       (not (nil? value)) (argument-value-value argument)
