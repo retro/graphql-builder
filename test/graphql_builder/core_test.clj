@@ -811,3 +811,19 @@ query Foo {
         query-fn (get-in query-map [:query :foo])]
     (is (= (str/trim object-argument-parsing-source)
            (get-in (query-fn) [:graphql :query])))))
+
+(def object-argument-parsing-source-2
+  "query Foo($id: String, $patch: String) {
+  productList(filter: { id: $id, patch: $patch }) {
+    nodes {
+      productNumber
+    }
+  }
+}
+")
+
+(deftest object-argument-parsing-2-test
+  (let [query-map (core/query-map (parse object-argument-parsing-source-2))
+        query-fn (get-in query-map [:query :foo])]
+    (is (= (str/trim object-argument-parsing-source-2)
+           (get-in (query-fn) [:graphql :query])))))

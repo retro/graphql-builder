@@ -40,6 +40,9 @@
     (and (map? v) (get v :values))
     (generate-arg-vector (get v :values))
 
+    (and (map? v) (get v :variable-name))
+    (str "$" (get v :variable-name))
+
     (vector? v)
     (generate-arg-list v)
 
