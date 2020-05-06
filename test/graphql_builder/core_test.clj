@@ -789,8 +789,41 @@ query Foo {
 }
 ")
 
-(deftest enums-arg-test
+(deftest enums-arg-2-test
   (let [query-map (core/query-map (parse argument-false-source) {})
         query-fn (get-in query-map [:query :foo])]
     (is (= (str/trim argument-false-source)
+           (get-in (query-fn) [:graphql :query])))))
+
+
+(def object-argument-parsing-source
+  "query Foo($item: String) {
+  productList(filter: { value: \"foo\", contains: [\"A\", \"B\"], using: {item: $item} }) {
+    nodes {
+      productNumber
+    }
+  }
+}
+")
+
+(deftest object-argument-parsing-test
+  (let [query-map (core/query-map (parse object-argument-parsing-source))
+        query-fn (get-in query-map [:query :foo])]
+    (is (= (str/trim object-argument-parsing-source)
+           (get-in (query-fn) [:graphql :query])))))
+
+(def object-argument-parsing-source-2
+  "query Foo($id: String, $patch: String) {
+  productList(filter: { id: $id, patch: $patch }) {
+    nodes {
+      productNumber
+    }
+  }
+}
+")
+
+(deftest object-argument-parsing-2-test
+  (let [query-map (core/query-map (parse object-argument-parsing-source-2))
+        query-fn (get-in query-map [:query :foo])]
+    (is (= (str/trim object-argument-parsing-source-2)
            (get-in (query-fn) [:graphql :query])))))
