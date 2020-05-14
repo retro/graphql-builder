@@ -64,6 +64,7 @@ Parsing and regenerating allows for some (automatic) advanced features:
 - Fragment inlining
 - Query namespacing (with prefixes)
 - Query composition - combine multiple queries into one query
+- Mutation composition – combine multiple mutations into one query
 - Subscriptions
 
 ## API
@@ -288,6 +289,50 @@ When you receive the result, you can use the returned `unpack` function to unpac
 
 {:empire-hero {"hero" "Foo"}
  :jedi-hero {"hero" "Bar"}}
+```
+
+
+### Mutation Composition
+
+You can also compose mutations in the same manner you can compose queries. The only
+difference is that the mutations might depend on each other, so the ordering of those
+mutations might be relevant.
+
+This can be achieved by providing mutation keys that are sorted by the `sort` method in
+Clojure.
+
+Assuming you have a mutation
+
+```javascript
+mutation AddStarship($name: String!){
+    addStarship(name: $name){
+        id
+   }
+}
+```
+
+You can compose multiple mutations together using the `composed-mutation` function:
+
+```clojure
+(def composed-mutation
+   (core/composed-mutation graphql-queries {:add-starship-1 "AddStarship"
+                                            :add-starship-2 "AddStarship"}))
+```
+
+When you execute the result, you get back the same structure as with composed queries,
+providing `unpack` function to parse the result from the server.
+
+```clojure
+(let [{unpack :unpack} (composed-mutation)]
+  (unpack {"AddStarship1__name" "starship-1"
+           "AddStarship2__name" "starship-2"}})
+```
+
+returns
+
+```clojure
+{:add-starship-1 {"name" "starship-1"}
+ :add-starship-2 {"name" "starship-2"}}
 ```
 
 [Tests](https://github.com/retro/graphql-builder/blob/master/test/graphql_builder/core_test.clj)
