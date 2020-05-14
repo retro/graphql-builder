@@ -827,3 +827,31 @@ query Foo {
         query-fn (get-in query-map [:query :foo])]
     (is (= (str/trim object-argument-parsing-source-2)
            (get-in (query-fn) [:graphql :query])))))
+
+(def composed-mutation-source "
+mutation AddStarship($name: String!){
+    addStarship(name: $name){
+        id
+   }
+}")
+
+(def composed-mutation-result "
+mutation ComposedMutation($AddStarship1__name: String!, $AddStarship2__name: String!) {
+  AddStarship1__addStarship: addStarship(name: $AddStarship1__name) {
+    id
+  }
+  AddStarship2__addStarship: addStarship(name: $AddStarship2__name) {
+    id
+  }
+}")
+
+(deftest composed-mutation-test
+  (let [composed-fn (core/composed-mutation (parse composed-mutation-source)
+                                            {:add-starship-1 "AddStarship"
+                                             :add-starship-2 "AddStarship"})
+        composed-mutation (composed-fn)
+        unpack (:unpack composed-mutation)]
+    (is (= (str/trim composed-mutation-result)
+           (get-in composed-mutation [:graphql :query])))
+    (is (= {:add-starship-1 {"name" :bar}}
+           (unpack {"AddStarship1__name" :bar})))))
