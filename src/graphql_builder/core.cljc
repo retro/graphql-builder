@@ -6,6 +6,7 @@
             [graphql-builder.generators.fragment :as fragment]
             [graphql-builder.generators.inline-fragment :as inline-fragment]
             [graphql-builder.generators.composed-query :as composed-query]
+            [graphql-builder.generators.composed-mutation :as composed-mutation]
             [camel-snake-kebab.core :refer [->kebab-case]]
             [clojure.string :as str]))
 
@@ -113,3 +114,7 @@
 (defn composed-query [parsed-statement queries]
   (let [nodes (generate parsed-statement {:generate? false})]
     (composed-query/generate generate-visit-nodes queries nodes)))
+
+(defn composed-mutation [parsed-statement mutations]
+  (let [nodes (generate parsed-statement {:generate? false})]
+    (composed-mutation/generate generate-visit-nodes mutations nodes)))
