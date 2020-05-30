@@ -23,7 +23,7 @@
         mutation (make-mutation mutation-name composition-parts)]
     (fn op-fn
       ([] (op-fn {}))
-      ([vars]
+      ([& vars]
        (let [namespaced-vars (composed-query/namespace-vars prefixes vars)]
          {:graphql {:operationName mutation-name
                     :query mutation
