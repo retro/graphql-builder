@@ -7,7 +7,7 @@
   (let [name (:name node)
         field-name (:field-name node)]
     (if name
-      (str name ": " field-name)
+      (str name ":" field-name)
       field-name)))
 
 (defn generate [visitor deps config indent-level node]

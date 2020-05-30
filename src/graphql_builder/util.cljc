@@ -5,7 +5,7 @@
 
 (defn nl-join [coll]
   (when (seq coll)
-    (str/join "\n" (vec (remove nil? coll)))))
+    (str/join "" (vec (remove nil? coll)))))
 
 (defn indent [level line]
   (str (str/join "" (repeat (* 2 level) " ")) line))

@@ -31,9 +31,9 @@
 (defn generate-arg-list [args]
   (str "{"
        (->> args
-            (mapv (fn [v] (str (:field-name v) ": " (generate-arg (:value v)))))
-            (str/join ", "))
-    "}"))
+            (mapv (fn [v] (str (:field-name v) ":" (generate-arg (:value v)))))
+            (str/join ","))
+       "}"))
 
 (defn parse-arg [v]
   (cond
@@ -51,7 +51,7 @@
 
 (defn object-default-value [value]
   (str "{ "
-       (str/join ", " (map (fn [v] (str (:name v) ": " (parse-arg (:value v)))) value))
+       (str/join "," (map (fn [v] (str (:name v) ":" (parse-arg (:value v)))) value))
        " }"))
 
 (defn get-enum-or-string-value [argument]
@@ -65,7 +65,7 @@
   (let [value      (:value argument)
         value-type (:value-type argument)]
     (cond
-      (:values value)                                       (str "[" (str/join ", " (map get-enum-or-string-value (:values value))) "]")
+      (:values value)                                       (str "[" (str/join "," (map get-enum-or-string-value (:values value))) "]")
       (and (vector? value) (= :object-value (first value))) (object-default-value (last value))
       :else                                                 (get-enum-or-string-value argument))))
 
@@ -89,7 +89,7 @@
 (defn node-arguments [node config]
   (when-let [arguments (:arguments node)]
     (str "("
-         (str/join ", " (map #(str (:argument-name %) ": " (argument-value % config)) arguments))
+         (str/join "," (map #(str (:argument-name %) ":" (argument-value % config)) arguments))
          ")")))
 
 (defn directive [d config]
@@ -107,7 +107,7 @@
   (boolean (seq (:selection-set node))))
 
 (defn open-block [node]
-  (when (has-children? node) " {"))
+  (when (has-children? node) "{"))
 
 (defn close-block [node indent-level]
   (when (has-children? node) (util/indent indent-level "}")))

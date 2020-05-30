@@ -32,10 +32,10 @@
 (defn query-variables [composition-parts]
   (let [variables (remove nil? (map :variables (vals composition-parts)))]
     (when (seq variables)
-      (str "(" (str/join ", " variables) ")"))))
+      (str "(" (str/join "," variables) ")"))))
 
 (defn make-query [query-name composition-parts]
-  (-> [(str "query " query-name (query-variables composition-parts) " {")
+  (-> [(str "query " query-name (query-variables composition-parts) "{")
        (map :children (vals composition-parts))
        "}"]
       flatten
