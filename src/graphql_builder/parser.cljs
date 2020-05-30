@@ -1,1 +1,2 @@
-(ns graphql-builder.parser)
+(ns graphql-builder.parser
+  (:require-macros [graphql-builder.parser]))
