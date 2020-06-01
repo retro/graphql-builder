@@ -10,7 +10,7 @@
   (str "..." (:name node) (fragment-type-name node) (directives node config)))
 
 (defn open-block [node]
-  (when (has-children? node) " {"))
+  (when (has-children? node) "{"))
 
 (defn close-block [node indent-level]
   (when (has-children? node) (util/indent indent-level "}")))

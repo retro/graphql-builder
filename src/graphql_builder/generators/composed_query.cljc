@@ -32,10 +32,10 @@
 (defn query-variables [composition-parts]
   (let [variables (remove nil? (map :variables (vals composition-parts)))]
     (when (seq variables)
-      (str "(" (str/join ", " variables) ")"))))
+      (str "(" (str/join "," variables) ")"))))
 
 (defn make-query [query-name composition-parts]
-  (-> [(str "query " query-name (query-variables composition-parts) " {")
+  (-> [(str "query " query-name (query-variables composition-parts) "{")
        (map :children (vals composition-parts))
        "}"]
       flatten
@@ -45,10 +45,13 @@
   [(str (get prefixes query-key) "__" key) var])
 
 (defn namespace-vars [prefixes vars]
-  (reduce (fn [acc [query-key vars]]
-            (let [prepared (util/variables->graphql vars)]
+  (reduce (fn [acc entry]
+            (let [query-key (ffirst entry)
+                  vareables (-> entry first second)
+                  prepared  (util/variables->graphql vareables)]
               (merge acc (into {} (map #(namespace-var prefixes query-key %) prepared)))))
-          {} vars))
+          {}
+          vars))
 
 (defn make-unpack [prefixes]
   (fn [data]
@@ -60,7 +63,7 @@
             {} data)))
 
 (defn generate [visitor queries nodes]
-  (let [query-name "ComposedQuery" 
+  (let [query-name "ComposedQuery"
         prefixes (make-prefixes queries)
         query-nodes (make-query-nodes nodes queries)
         composition-parts (make-composition-parts visitor query-nodes prefixes)
@@ -68,7 +71,7 @@
         query (make-query query-name composition-parts)]
     (fn op-fn
       ([] (op-fn {}))
-      ([vars]
+      ([& vars]
        (let [namespaced-vars (namespace-vars prefixes vars)]
          {:graphql {:operationName query-name
                     :query query

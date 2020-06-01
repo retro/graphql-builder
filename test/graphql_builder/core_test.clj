@@ -8,13 +8,40 @@
             [graphql-builder.util :refer [nl-join variables->graphql]]
             [graphql-builder.parser :refer [parse defgraphql]]))
 
+(def composed-query-source-2 "
+  query Hero($episode: String!) {
+    hero(episode: $episode) {
+      name
+    }
+  }
+")
+
+(def composed-mutation-source "
+mutation AddStarship($name: String!){
+    addStarship(name: $name){
+        id
+   }
+}")
+
 (def test-statements (map str/trim (edn/read-string (slurp "test/graphql_builder/resources/statements.edn"))))
 
 (deftest generate-test
-  ;;test if we can recreate the same GraphQL source
-  (doseq [test-statement test-statements]
-    (is (= test-statement
-           (core/generated->graphql (core/generate (parse test-statement)))))))
+  (testing "if we can recreate the same graphql source"
+    (doseq [test-statement test-statements]
+      (is (= test-statement
+             (core/generated->graphql (core/generate (parse test-statement)))))))
+  (testing "several arguments can be apply to composed query"
+    (let [composed-fn (core/composed-query (parse composed-query-source-2)
+                                           {:jedi-hero "Hero"
+                                            :empire-hero "Hero"})
+          composed-query (composed-fn {:empire-hero {:episode "EMPIRE"}} {:jedi-hero {:episode "JEDI"}})]
+      (is (= 2 (count (get-in composed-query [:graphql :variables]))))))
+  (testing "several arguments can be apply to composed mutation"
+    (let [composed-fn (core/composed-mutation (parse composed-mutation-source)
+                                              {:add-starship-1 "AddStarship"
+                                               :add-starship-2 "AddStarship"})
+          composed-mutation (composed-fn {:add-starship-1 {:name "asd"}} {:add-starship-2 {:name "dsa"}})]
+      (is (= 2 (count (get-in composed-mutation [:graphql :variables])))))))
 
 (def inline-fragment-source "
 query LoadStarships($starshipCount: Int!) {
@@ -300,14 +327,6 @@ query ComposedQuery($LoadStarships1__starshipCount: Int!, $LoadStarships2__stars
            (get-in composed-query [:graphql :query])))
     (is (= {:load-starships-1 {"foo" :bar}}
            (unpack {"LoadStarships1__foo" :bar})))))
-
-(def composed-query-source-2 "
-query Hero($episode: String!) {
-  hero(episode: $episode) {
-    name
-  }
-}
-")
 
 (def composed-query-result-2 "
 query ComposedQuery($JediHero__episode: String!, $EmpireHero__episode: String!) {
@@ -827,13 +846,6 @@ query Foo {
         query-fn (get-in query-map [:query :foo])]
     (is (= (str/trim object-argument-parsing-source-2)
            (get-in (query-fn) [:graphql :query])))))
-
-(def composed-mutation-source "
-mutation AddStarship($name: String!){
-    addStarship(name: $name){
-        id
-   }
-}")
 
 (def composed-mutation-result "
 mutation ComposedMutation($AddStarship1__name: String!, $AddStarship2__name: String!) {

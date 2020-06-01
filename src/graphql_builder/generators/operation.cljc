@@ -27,7 +27,7 @@
 
 (defn node-variables-body [node config]
   (when-let [variables (:variable-definitions node)]
-    (str/join ", " (map #(str "$" (variable-name % config) ": " (variable-value %)) variables))))
+    (str/join "," (map #(str "$" (variable-name % config) ":" (variable-value %)) variables))))
 
 (defn node-variables [node config]
   (when (:variable-definitions node)
@@ -55,7 +55,7 @@
 
 (defn generate [visitor deps config indent-level node]
   [(util/indent indent-level
-                (str (operation-name node) (node-variables node config) " {"))
+                (str (operation-name node) (node-variables node config) "{"))
    (visitor deps config (inc indent-level) (children node config))
    (util/indent indent-level "}")])
 
