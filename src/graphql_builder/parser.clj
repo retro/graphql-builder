@@ -107,10 +107,11 @@
   (let [value-type (:alumbra/value-type node)
         value      (get node (keyword "alumbra" (name value-type)))]
     {:value-type value-type
-     :value (case value-type
-              :list     {:values (map #(select-keys % [:value :value-type]) value)}
-              :variable {:variable-name (:alumbra/variable-name node)}
-              value)}))
+     :value      (case value-type
+                   ;; map changed here to mapv. This fixes generating lists back to GraphQL (f.ex. OR-filter)
+                   :list {:values (mapv #(select-keys % [:value :value-type]) value)}
+                   :variable {:variable-name (:alumbra/variable-name node)}
+                   value)}))
 
 (defmethod alumbra-node->graphql-node :fragment [node]
   {:node-type      :fragment-definition

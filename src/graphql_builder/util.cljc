@@ -26,8 +26,14 @@
   (let [f (fn [[k v]] [(t k) v])]
     (walk/postwalk (fn [x] (if (map? x) (into {} (map f x)) x)) coll)))
 
+;; added
+(defn- key->graphql [k]
+  (if (string? k)
+    k
+    (->camelCase (name k))))
+
 (defn variables->graphql [vars]
-  (transform-keys (comp ->camelCase name) vars))
+  (transform-keys key->graphql vars))
 
 (defn reverse-map
   "Reverse the keys/values of a map"
