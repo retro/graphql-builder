@@ -1,0 +1,4 @@
+{:paths ["src"]
+ :deps {org.clojure/clojure                 {:mvn/version "1.9.0"}
+        alumbra/parser                      {:mvn/version "0.1.7"}
+        camel-snake-kebab/camel-snake-kebab {:mvn/version "0.4.1"}}}

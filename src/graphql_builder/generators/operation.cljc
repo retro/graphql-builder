@@ -6,7 +6,7 @@
 (defn default-value [variable]
   (when-let [val (:default-value variable)]
     (if (and (vector? val) (= :object-value (first val)))
-      (str " = " (object-default-value (last val)))
+      (str " = " (object-default-value (last val) {}))
       (str " = " (quote-arg val)))))
 
 (defn variable-value [variable]
