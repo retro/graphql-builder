@@ -50,6 +50,9 @@
 
     (vector? v)
     (generate-arg-list v prefix)
+    
+    (and (map? v) (= :enum (:value-type v)))
+    (:value v)
 
     :else
     (quote-arg v)))

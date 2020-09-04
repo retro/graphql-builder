@@ -855,3 +855,84 @@ mutation ComposedMutation($AddStarship1__name: String!, $AddStarship2__name: Str
            (get-in composed-mutation [:graphql :query])))
     (is (= {:add-starship-1 {"name" :bar}}
            (unpack {"AddStarship1__name" :bar})))))
+
+(def inline-enum-query-1
+"query AssignableTerminals {
+  terminals(first: 100, filter: { assignability: ASSIGNABLE }) {
+    edges {
+      node {
+        id
+        terminalVersion
+        deviceId
+        availabilityState
+      }
+    }
+  }
+}")
+
+(deftest inline-enum-query-test-1
+  (let [query-map (core/query-map (parse inline-enum-query-1))
+        query-fn (get-in query-map [:query :assignable-terminals])]
+    (is (= (str/trim inline-enum-query-1)
+           (get-in (query-fn) [:graphql :query])))))
+
+(def inline-enum-query-1a
+"query AssignableTerminals {
+  terminals(first: 100, filter: { assignability: \"ASSIGNABLE\" }) {
+    edges {
+      node {
+        id
+        terminalVersion
+        deviceId
+        availabilityState
+      }
+    }
+  }
+}")
+
+(deftest inline-enum-query-test-1a
+  (let [query-map (core/query-map (parse inline-enum-query-1a))
+        query-fn (get-in query-map [:query :assignable-terminals])]
+    (is (= (str/trim inline-enum-query-1a)
+           (get-in (query-fn) [:graphql :query])))))
+
+(def inline-enum-query-2
+"query AssignableTerminals {
+  terminals(first: 100, filter: ASSIGNABLE) {
+    edges {
+      node {
+        id
+        terminalVersion
+        deviceId
+        availabilityState
+      }
+    }
+  }
+}")
+
+(deftest inline-enum-query-test-2
+  (let [query-map (core/query-map (parse inline-enum-query-2))
+        query-fn (get-in query-map [:query :assignable-terminals])]
+    (is (= (str/trim inline-enum-query-2)
+           (get-in (query-fn) [:graphql :query])))))
+
+
+(def inline-enum-query-3
+  "query AssignableTerminals {
+  terminals(first: 100, filter: { assignability: {foo: ASSIGNABLE} }) {
+    edges {
+      node {
+        id
+        terminalVersion
+        deviceId
+        availabilityState
+      }
+    }
+  }
+}")
+
+(deftest inline-enum-query-test-3
+  (let [query-map (core/query-map (parse inline-enum-query-3))
+        query-fn (get-in query-map [:query :assignable-terminals])]
+    (is (= (str/trim inline-enum-query-3)
+           (get-in (query-fn) [:graphql :query])))))
