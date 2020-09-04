@@ -8,12 +8,17 @@
   (let [selection-set (:alumbra/selection-set node)]
     selection-set))
 
+(defn get-parsed-object-value [value]
+  (if (= (:value-type value) :enum)
+    value
+    (:value value)))
+
 (defn parse-object-values [values]
   (conj [] 
         :object-value 
-        (mapv (fn [v] 
+        (mapv (fn [v]
                 {:name  (:field-name v)
-                 :value (get-in v [:value :value])}) values)))
+                 :value (get-parsed-object-value (:value v))}) values)))
 
 (defn get-default-value [node]
   (let [value (:value (:alumbra/default-value node))]
