@@ -1,4 +1,4 @@
-(defproject floatingpointio/graphql-builder "0.1.13"
+(defproject floatingpointio/graphql-builder "0.1.14"
   :description "A Clojure(Script) library designed to help with the consuming of GraphQL APIs."
   :url "https://github.com/retro/graphql-builder"
   :license {:name "MIT"
