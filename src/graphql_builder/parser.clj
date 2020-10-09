@@ -168,8 +168,11 @@
 (defn parse [statement]
   (let [alumbra-parsed   (alumbra-parser/parse-document statement)
         parsed-statement (alumbra->graphql alumbra-parsed)]
-    {:operations-definitions (:alumbra/operations parsed-statement)
-     :fragment-definitions   (:alumbra/fragments parsed-statement)}))
+    (if-let [errors (seq (:alumbra/parser-errors alumbra-parsed))]
+      (throw (ex-info "Cannot parse statement" {:statement statement
+                                                :errors errors}))
+      {:operations-definitions (:alumbra/operations parsed-statement)
+       :fragment-definitions   (:alumbra/fragments parsed-statement)})))
 
 (defn read-file [file]
   (slurp

@@ -183,6 +183,11 @@ query Foo($QueryNS__bar: Int!) {
 }
 ")
 
+(def invalid-query "qaaa")
+
+(deftest invalid-query-test
+  (is (thrown? clojure.lang.ExceptionInfo (parse invalid-query))))
+
 (deftest append-fragment-test
   (let [query-map (core/query-map (parse inline-fragment-source))
         query-fn (get-in query-map [:query :load-starships])]
