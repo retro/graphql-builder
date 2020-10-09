@@ -145,7 +145,7 @@ graphql-builder can inline the referenced fragments inside the query. To inline 
         [graphql-builder.core :as core]))
 
 (defgraphql graphq-queries "file1.graphql" "file2.graphql")
-(def query-map (core/query-map graphql-queries) {:inline-fragments true})
+(def query-map (core/query-map graphql-queries {:inline-fragments true}))
 ```
 
 If you called the `load-starships-query` function again, the returned GraphQL string would look like this:
@@ -186,7 +186,7 @@ grapqhl-builder can "namespace" the GraphQL query. To namespace the query, pass 
         [graphql-builder.core :as core]))
 
 (defgraphql graphq-queries "file1.graphql" "file2.graphql")
-(def query-map (core/query-map graphql-queries) {:prefix "NameSpace"})
+(def query-map (core/query-map graphql-queries {:prefix "NameSpace"}))
 ```
 
 If you called the `load-starships-query` function again, the returned GraphQL string would look like this:
