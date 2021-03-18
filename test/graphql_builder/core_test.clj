@@ -861,6 +861,7 @@ mutation ComposedMutation($AddStarship1__name: String!, $AddStarship2__name: Str
     (is (= {:add-starship-1 {"name" :bar}}
            (unpack {"AddStarship1__name" :bar})))))
 
+
 (def inline-enum-query-1
 "query AssignableTerminals {
   terminals(first: 100, filter: { assignability: ASSIGNABLE }) {
@@ -941,3 +942,16 @@ mutation ComposedMutation($AddStarship1__name: String!, $AddStarship2__name: Str
         query-fn (get-in query-map [:query :assignable-terminals])]
     (is (= (str/trim inline-enum-query-3)
            (get-in (query-fn) [:graphql :query])))))
+
+(def list-query-argument-1
+  "query Search($term: String) {
+  objects(filter: { or: [{name: {startsWith: $term}}, {objectId: {startsWith: $term}}] }) {
+    id
+  }
+}")
+
+(deftest list-query-argument-test-1
+  (let [query-map (core/query-map (parse list-query-argument-1))
+        query-fn (get-in query-map [:query :search])]
+    (is (= (str/trim list-query-argument-1)
+          (get-in (query-fn) [:graphql :query])))))
