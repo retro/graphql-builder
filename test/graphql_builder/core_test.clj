@@ -955,3 +955,22 @@ mutation ComposedMutation($AddStarship1__name: String!, $AddStarship2__name: Str
         query-fn (get-in query-map [:query :search])]
     (is (= (str/trim list-query-argument-1)
           (get-in (query-fn) [:graphql :query])))))
+
+(def argument-defaults
+  "query postCollectionQuery($list: Boolean = false) {
+  postCollection {
+    items {
+      content @skip(if: $list) {
+        json
+      }
+      shortDescription @include(if: $list) {
+        json
+      }
+    }
+  }
+}")
+
+(deftest arguments-defaults-test
+  (let [query-map (core/query-map (parse argument-defaults))
+        query-fn (get-in query-map [:query :post-collection-query])]
+    (is (= (str/trim argument-defaults) (get-in (query-fn) [:graphql :query])))))

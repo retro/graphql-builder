@@ -4,10 +4,11 @@
             [graphql-builder.generators.shared :refer [quote-arg add-var-prefix object-default-value]]))
 
 (defn default-value [variable]
-  (when-let [val (:default-value variable)]
-    (if (and (vector? val) (= :object-value (first val)))
-      (str " = " (object-default-value (last val) {}))
-      (str " = " (quote-arg val)))))
+  (let [val (:default-value variable)]
+    (when-not (nil? val)
+      (if (and (vector? val) (= :object-value (first val)))
+        (str " = " (object-default-value (last val) {}))
+        (str " = " (quote-arg val))))))
 
 (defn variable-value [variable]
   (let [inner-required? (get-in variable [:inner-type :required])
