@@ -144,7 +144,7 @@ graphql-builder can inline the referenced fragments inside the query. To inline 
         [graphql-builder.parser :refer-macros [defgraphql]]
         [graphql-builder.core :as core]))
 
-(defgraphql graphq-queries "file1.graphql" "file2.graphql")
+(defgraphql graphql-queries "file1.graphql" "file2.graphql")
 (def query-map (core/query-map graphql-queries {:inline-fragments true}))
 ```
 
