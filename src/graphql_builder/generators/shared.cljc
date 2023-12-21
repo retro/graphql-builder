@@ -4,9 +4,10 @@
 
 ;; ToDo - check enum type vs string quoting, write tests for mixed enums in list node type
 (defn quote-arg [v]
-  (if (string? v)
-    (str "\"" v "\"")
-    v))
+  (cond
+    (string? v) (str "\"" v "\"")
+    (nil? v) "null"
+    :else v))
 
 (defn add-var-prefix [prefix name]
   (if prefix
@@ -21,6 +22,7 @@
     :string (str "\"" value "\"")
     :object (generate-arg-list value prefix)
     :list (generate-arg-vector (:values value) prefix)
+    :null "null"
     value))
 
 (defn generate-arg-vector [args prefix]
