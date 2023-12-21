@@ -974,3 +974,27 @@ mutation ComposedMutation($AddStarship1__name: String!, $AddStarship2__name: Str
   (let [query-map (core/query-map (parse argument-defaults))
         query-fn (get-in query-map [:query :post-collection-query])]
     (is (= (str/trim argument-defaults) (get-in (query-fn) [:graphql :query])))))
+
+(def argument-object-value-literal-null-query
+  "query literalNull {
+  events(where: { deletedAt: null }) {
+    id
+  }
+}")
+
+(deftest argument-object-value-literal-null-test
+  (let [query-map (core/query-map (parse argument-object-value-literal-null-query))
+        query-fn (get-in query-map [:query :literal-null])]
+    (is (= (str/trim argument-object-value-literal-null-query) (get-in (query-fn) [:graphql :query])))))
+
+(def field-value-literal-null-query
+  "query literalNull {
+  events(where: { or: [{deletedAt: null}, {deletedAt_gt: \"2023-11-28T00:00:00Z\"}] }) {
+    id
+  }
+}")
+
+(deftest field-value-literal-null-test
+  (let [query-map (core/query-map (parse field-value-literal-null-query))
+        query-fn (get-in query-map [:query :literal-null])]
+    (is (= (str/trim field-value-literal-null-query) (get-in (query-fn) [:graphql :query])))))
